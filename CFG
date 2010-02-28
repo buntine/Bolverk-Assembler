@@ -1,0 +1,9 @@
+The following is my attempt at describing, in Backus-Naur form, a
+context-free grammer for this programming language.
+
+
+expr     -->  id number (',' number)*
+id       -->  letter letter*
+number   -->  digit | digit digit
+digit    -->  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | A | B | C | D | E | F
+comment  -->  -- (non-newline)* newline

@@ -19,6 +19,6 @@
   -- Print the sum of two decimal numbers.
   LOAD 1, 43
   LOAD 2, 0D
-  BADD 1, 2, 3 -- Add (as binary) the contents of register 1 and 2. Store the result in register 3.
+  BADD 1, 2, 3   -- Add (as binary) the contents of register 1 and 2. Store the result in register 3.
   STOR 3, A1
-  PDEC A1      -- Print memory cell A1 as decimal
+  PDEC A1        -- Print memory cell A1 as decimal
