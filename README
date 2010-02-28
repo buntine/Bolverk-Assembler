@@ -1,0 +1,24 @@
+=========================================
+===      Bolverk Assembler v0.0.1     ===
+===         By Andrew Buntine         ===
+=========================================
+
+1) Definition
+
+  This is a compiler for an assembly-like language. It complies to the native Bolverk
+  instruction set.
+
+  An assembly language provides a level of abstraction above the target machines
+  instruction set so we can write source in (slightly) more natural language opposed
+  to directly in machine code.
+
+  Comments are denoted by two hyphens and are terminated by the newline character.
+
+2) Example
+
+  -- Print the sum of two decimal numbers.
+  LOAD 1, 43
+  LOAD 2, 0D
+  BADD 1, 2, 3 -- Add (as binary) the contents of register 1 and 2. Store the result in register 3.
+  STOR 3, A1
+  PDEC A1      -- Print memory cell A1 as decimal
