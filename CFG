@@ -1,8 +1,9 @@
 The following is my attempt at describing, in Backus-Naur form, a
-context-free grammer for this programming language.
+context-free grammer for this language.
 
 
-expr     -->  id number (',' number)*
+expr     -->  id number (comma number)*
+comma    -->  ,
 id       -->  letter (letter)*
 letter   -->  A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 number   -->  digit | digit digit
