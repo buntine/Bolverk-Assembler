@@ -26,4 +26,19 @@ class Bolverk::ASM::Lexer
     :comment,
   ]
 
+  def initialize(stream)
+    @stream = stream
+    @tokens = []
+  end
+
+  def scan
+
+  end
+
+ private
+
+  def next_token
+
+  end
+
 end
