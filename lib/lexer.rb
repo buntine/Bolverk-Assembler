@@ -14,4 +14,16 @@ class Bolverk::ASM::Lexer
     {"," => nil, "-" => nil, /a-zA-Z/ => nil, /0-9/ => nil, /\n/ => nil, /\s|\t/ => nil}
   ]
 
+  @@token_tab = [
+    nil,
+    :comma,
+    :keyword,
+    :number,
+    :number,
+    nil,
+    nil,
+    :whitespace,
+    :comment,
+  ]
+
 end
