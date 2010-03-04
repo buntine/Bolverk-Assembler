@@ -14,11 +14,14 @@
 
   Comments are denoted by two hyphens and are terminated by the newline character.
 
+  To make things easier for us humans, all numbers (memory cells, registers, etc) must
+  be denoted in decimal.
+
 2) Example
 
-  -- Print the sum of two decimal numbers.
-  LOAD 1, 43
-  LOAD 2, 0D
-  BADD 1, 2, 3   -- Add (as Binary) the contents of register 1 and 2. Store the result in register 3.
-  STOR 3, A1
-  PMDE A1        -- Print Memory cell A1 as DEcimal
+  -- Print the sum of two decimal numbers: (44 + 120).
+  LOAD 1, 44
+  LOAD 2, 120
+  DADD 1, 2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
+  STOR 3, 161
+  PMDE 161       -- Print Memory cell 161 (A1) as Decimal
