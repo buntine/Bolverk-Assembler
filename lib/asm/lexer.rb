@@ -1,15 +1,12 @@
-# Lexical analyser for Bolverk assembly.
-
-module Bolverk
-  module ASM
-  end
-end
-
-class Bolverk::ASM::LexicalError < RuntimeError
-end
-
 class Bolverk::ASM::Lexer
 
+  # Lexical analyser for Bolverk assembly. Scans an input program and returns an array
+  # of program tokens. This makes the parsers job a lot easier.
+
+  attr_reader :tokens
+
+  # Scan table as translated from a deterministic state automaton. This table is used
+  # to find the next state given a current state and input character.
   @@scan_table = [
     [[/,/, 2],   [/-/, 7],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 9],   [/\s|\t/, 9],   [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
@@ -23,22 +20,12 @@ class Bolverk::ASM::Lexer
     [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]]
   ]
 
-  @@token_list = [
-    nil,
-    :comma,
-    :keyword,
-    :number,
-    :number,
-    :number,
-    nil,
-    nil,
-    :whitespace,
-    :comment,
-  ]
+  # Token table. Each index, n, represents the token that can be recognised when the
+  # lexer is at state n+1.
+  @@token_list = [ nil, :comma, :keyword, :number, :number,
+                   :number, nil, nil, :whitespace, :comment ]
 
   def initialize(stream)
-    attr_reader :tokens
-
     @stream = stream
     @tokens = []
   end
@@ -46,12 +33,14 @@ class Bolverk::ASM::Lexer
   # Scans the program input and returns an array of tokens in the
   # following format:
   #   { "type" => :keyword, "value" => "STOR", "line" => 3 }
+  # Produces a LexicalError exception when lexically invalid input
+  # is received.
   def scan
     while !@stream.eof?
       @tokens << next_token
     end
 
-    @tokens
+    @tokens.compact
   end
 
  private
@@ -97,10 +86,16 @@ class Bolverk::ASM::Lexer
       end
     end
 
+    # If we have recognised whitespace or a comment, just ignore it and try
+    # to find the next token.
     if is_whitespace_or_comment?
       next_token
     else
-      { "type" => @@token_list[@state - 1], "value" => value }
+      if value != ""
+        { "type" => @@token_list[@state - 1], "value" => value }
+      else
+        nil
+      end
     end
   end
 

@@ -6,6 +6,6 @@ expr     -->  id number (comma number)*
 comma    -->  ,
 id       -->  letter (letter)*
 letter   -->  A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
-number   -->  digit | digit digit
-digit    -->  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | A | B | C | D | E | F
+number   -->  digit | digit digit | digit digit digit
+digit    -->  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 comment  -->  -- (non-newline)* newline
