@@ -1,5 +1,6 @@
 -- This program is syntactically valid, but contains sementic errors.
 
+LOAD 5, 80
 LOAD 1, 7
 LOAD 2, 260 -- Number is too large.
 BADD 1, 2   -- BADD requires three arguments.
