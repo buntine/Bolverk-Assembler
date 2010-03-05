@@ -14,8 +14,8 @@
 
   Comments are denoted by two hyphens and are terminated by the newline character.
 
-  To make things easier for us humans, all numbers (memory cells, registers, etc) must
-  be denoted in decimal.
+  To make things easier for us humans (and lexical analysis), all numbers (memory
+  cells, registers, etc) must be denoted in decimal.
 
 2) Example
 

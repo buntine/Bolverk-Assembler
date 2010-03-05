@@ -48,11 +48,12 @@ class Bolverk::ASM::Lexer
  private
 
   # Attempts to find the next token in the stream.
+  # This algorithm respects the "longest possible token" rule and
+  # is capable of detecting lexical errors.
   def next_token
     @state = 1
     value = ""
-    remembered_state = 0
-    remembered_chars = []
+    recovery_data = [0, 0]
 
     while !@stream.eof?
       char = @stream.read(1)
@@ -61,12 +62,11 @@ class Bolverk::ASM::Lexer
       # Move to the next state.
       if next_state
         if recognizable?
-          remembered_chars = []
-          remembered_state = @state
+          recovery_data = [@state, 0]
         end
 
         value << char
-        remembered_chars << char
+        recovery_data[1] += 1
         @state = next_state
       else
         # Recognise the final token.
@@ -75,10 +75,8 @@ class Bolverk::ASM::Lexer
           break
         else
           # Recoverable error.
-          if remembered_state > 0
-            @state = remembered_state
-            @stream.seek(@stream.pos - remembered_chars.length)
-            value = value[0..-(remembered_chars.length + 1)]
+          if recovery_data[0] > 0
+            value = recover_from_error!(recovery_data, value)
             break
           # Fatal lexical error.
           else
@@ -105,6 +103,15 @@ class Bolverk::ASM::Lexer
 
   def recognizable?
     !!get_token
+  end
+
+  # Recovers from a lexical error by "unreading" the remembered
+  # input and falling back to the remembered state.
+  def recover_from_error!(recovery_data, current_value)
+    @state = recovery_data[0]
+    @stream.seek(@stream.pos - recovery_data[1])
+
+    current_value[0..-(recovery_data[1] + 1)]
   end
 
   # Returns the token (if any) for the current state.
