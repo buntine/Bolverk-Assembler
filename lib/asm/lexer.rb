@@ -36,11 +36,13 @@ class Bolverk::ASM::Lexer
   # Produces a LexicalError exception when lexically invalid input
   # is received.
   def scan
-    while !@stream.eof?
-      @tokens << next_token
-    end
+    @tokens << next_token
 
-    @tokens
+    if is_eof?
+      @tokens
+    else
+      scan
+    end
   end
 
  private
@@ -117,6 +119,10 @@ class Bolverk::ASM::Lexer
 
   def is_whitespace_or_comment?
     [:whitespace, :comment].include?(get_token)
+  end
+
+  def is_eof?
+    @tokens.last["type"] == :eof
   end
 
 end
