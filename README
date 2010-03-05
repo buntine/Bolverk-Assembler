@@ -24,4 +24,4 @@
   LOAD 2, 120
   DADD 1, 2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
   STOR 3, 161
-  PMDE 161       -- Print Memory cell 161 (A1) as Decimal
+  PMDE 161       -- Print Memory cell 161 (A1) as decimal

@@ -40,7 +40,7 @@ class Bolverk::ASM::Lexer
       @tokens << next_token
     end
 
-    @tokens.compact
+    @tokens
   end
 
  private
@@ -92,15 +92,22 @@ class Bolverk::ASM::Lexer
       next_token
     else
       if value != ""
-        { "type" => @@token_list[@state - 1], "value" => value }
+        { "type" => get_token, "value" => value }
       else
-        nil
+        # Here we append an EOF token to help the parser match the
+        # end of the input.
+        { "type" => :eof, "value" => nil }
       end
     end
   end
 
   def recognizable?
-    !!@@token_list[@state - 1]
+    !!get_token
+  end
+
+  # Returns the token (if any) for the current state.
+  def get_token
+    @@token_list[@state - 1]
   end
 
   # Attempts to match the character against one of the scan rules.
@@ -109,7 +116,7 @@ class Bolverk::ASM::Lexer
   end
 
   def is_whitespace_or_comment?
-    [9, 10].include?(@state)
+    [:whitespace, :comment].include?(get_token)
   end
 
 end
