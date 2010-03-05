@@ -25,3 +25,11 @@
   DADD 1, 2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
   STOR 3, 161
   PMDE 161       -- Print Memory cell 161 (A1) as decimal
+
+3) TODO
+
+  - Variables (immutable):
+      A = 56
+      LOAD 2, A
+  - ASCII Character data type:
+      PMCH '$'
