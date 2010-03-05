@@ -1,0 +1,5 @@
+-- This program is just plain wrong. It shouldn't make it past lexical analysis.
+
+LOAD 1, 20
+ADDA !12, 12
+LOAD 999     # Incorrect comment notation.
