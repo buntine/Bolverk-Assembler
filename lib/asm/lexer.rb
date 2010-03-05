@@ -1,12 +1,13 @@
 class Bolverk::ASM::Lexer
 
-  # Lexical analyser for Bolverk assembly. Scans an input program and returns an array
-  # of program tokens. This makes the parsers job a lot easier.
+  # Table-driven lexical analyser for Bolverk assembly. Scans an input program and returns an
+  # array of program tokens. This makes the parsers job a lot easier.
 
   attr_reader :tokens
 
   # Scan table as translated from a deterministic state automaton. This table is used
-  # to find the next state given a current state and input character.
+  # to find the next state given a current state and input character. A nil value denotes
+  # that no action can be taken.
   @@scan_table = [
     [[/,/, 2],   [/-/, 7],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 9],   [/\s|\t/, 9],   [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
@@ -86,19 +87,7 @@ class Bolverk::ASM::Lexer
       end
     end
 
-    # If we have recognised whitespace or a comment, just ignore it and try
-    # to find the next token.
-    if is_whitespace_or_comment?
-      next_token
-    else
-      if value != ""
-        { "type" => get_token, "value" => value }
-      else
-        # Here we append an EOF token to help the parser match the
-        # end of the input.
-        { "type" => :eof, "value" => nil }
-      end
-    end
+    build_token(value)
   end
 
   def recognizable?
@@ -112,6 +101,23 @@ class Bolverk::ASM::Lexer
     @stream.seek(@stream.pos - recovery_data[1])
 
     current_value[0..-(recovery_data[1] + 1)]
+  end
+
+  # Builds a token structure or continues scanning, depending on state.
+  def build_token(value)
+    # If we have recognised whitespace or a comment, just ignore it and try
+    # to find the next token.
+    if is_whitespace_or_comment?
+      next_token
+    else
+      if value != ""
+        { "type" => get_token, "value" => value }
+      else
+        # Here we append an EOF token to help the parser match the
+        # end of the input.
+        { "type" => :eof, "value" => nil }
+      end
+    end
   end
 
   # Returns the token (if any) for the current state.
