@@ -30,6 +30,24 @@ class Bolverk::ASM::Parser
   #  6. number_list_tail  --> "comma" "number" number_list_tail { comma }
   #  7. number_list_tail  --> EPS { keyword $ }
 
+  @@parse_table = {
+    :program =>          { :keyword => nil, :number => nil, :comma => nil, :eof => nil },
+    :statement_list =>   { :keyword => nil, :number => nil, :comma => nil, :eof => nil },
+    :statement =>        { :keyword => nil, :number => nil, :comma => nil, :eof => nil },
+    :number_list =>      { :keyword => nil, :number => nil, :comma => nil, :eof => nil },
+    :number_list_tail => { :keyword => nil, :number => nil, :comma => nil, :eof => nil }
+  }
+
+  @production_table = [
+    [:statement_list, :eof],              # program
+    [:statement, :statement_list],        # statement_list
+    [:eof],                               # statement_list
+    [:keyword, :number_list],             # statement
+    [:number, :number_list_tail],         # number_list
+    [:comma, :number, :number_list_tail], # number_list_tail
+    [:eof]                                # number_list_tail
+  ]
+
   def initialize
 
   end
