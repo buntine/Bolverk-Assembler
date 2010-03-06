@@ -32,6 +32,8 @@ class Bolverk::ASM::Parser
     @parse_tree = []
   end
 
+  # Configures the object for parsing. Returns the constructed parse tree
+  # or dies with a Syntax Error.
   def parse
     scanner = Bolverk::ASM::Lexer.new(@stream)
 
@@ -46,57 +48,70 @@ class Bolverk::ASM::Parser
   # Recursively parses the input tokens, always looking for syntax
   # errors.
   def parse_tokens(current_token)
-    expected_symbol = @stack.fpop
+    expected_symbol = @stack.shift
 
     if is_terminal?(expected_symbol)
       match(expected_symbol, current_token)
 
-      if @tokens[current_token]["type"] == :eof
+      # If true, we are finished and can clean up.
+      if is_eof?(current_token) 
         true
       else
         parse_tokens(current_token + 1)
       end
+    # We are dealing with a non-terminal, which may need to be expanded.
     else
-      prediction = @@parse_table[expected_symbol][@tokens[current_token]["type"]]
-
-      if prediction
-        production = @@production_table[prediction - 1]
-        production.reverse.each do |p|
-          @stack.fpush(p)
-        end
-
-        parse_tokens(current_token)
-      else
-        raise Bolverk::ASM::SyntaxError, "Unexpected token: #{@tokens[current_token]["value"]}"
-      end
+      make_prediction(expected_symbol, current_token)
     end
   end
 
   # Matches the current token with whatever the parse table
   # has predicted. A non-match results in a syntax error.
-  def match(expected_token, current_token)
-    token = @tokens[current_token]
-    if expected_token == token["type"]
+  def match(expected_token, index)
+    if expected_token == token_type(index)
       true
     else
-      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token["value"]}. Expected: #{expected_token}"
+      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. Expected: #{expected_token}"
     end
+  end
+
+  # Makes a suitable prediction for the next production and prefixes
+  # it to the parse stack for further inspection on subsequent recursions.
+  def make_prediction(expected_symbol)
+    prediction = fetch_prediction(expected_symbol, current_token) 
+
+    if prediction
+      production = @@production_table[prediction - 1]
+      production.reverse.each do |p|
+        @stack.fpush(p)
+      end
+
+      parse_tokens(current_token)
+    else
+      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(current_token)}"
+    end
+  end
+
+  # Consults the parse table for a prediction, given an expected symbol
+  # and token.
+  def fetch_prediction(expected_symbol, index)
+    @@parse_table[expected_symbol][token_type(index)]
   end
 
   def is_terminal?(symbol)
     [ :comma, :number, :keyword, :eof ].include?(symbol)
   end
-end
 
-class Array
-  def fpop
-    self.reverse!
-    v = self.pop
-    self.reverse!
-    return v
+  def token_type(index)
+    @tokens[index]["type"]
   end
 
-  def fpush(value)
-    self.insert(0, value)
+  def token_value(index)
+    @tokens[index]["value"]
   end
+
+  def is_eof?(index)
+    token_type(index) == :eof
+  end
+
 end
