@@ -77,8 +77,8 @@ class Bolverk::ASM::Parser
 
   # Makes a suitable prediction for the next production and prefixes
   # it to the parse stack for further inspection on subsequent recursions.
-  def make_prediction(expected_symbol)
-    prediction = fetch_prediction(expected_symbol, current_token) 
+  def make_prediction(expected_symbol, index)
+    prediction = fetch_prediction(expected_symbol, index) 
 
     if prediction
       production = @@production_table[prediction - 1]
@@ -86,9 +86,9 @@ class Bolverk::ASM::Parser
         @stack.fpush(p)
       end
 
-      parse_tokens(current_token)
+      parse_tokens(index)
     else
-      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(current_token)}"
+      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}"
     end
   end
 
