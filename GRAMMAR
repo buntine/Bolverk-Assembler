@@ -4,12 +4,13 @@ formal grammar for this language.
 Notes:
   - EPS represents an epsilon production (generally an empty string or optional step).
   - Terminals in the formal grammar are wrapped in double-quotes.
+  - The $ token is added by the scanner. It indicates the end of program input.
 
 
 CONTEXT-FREE GRAMMAR
 
 comma    -->  ,
-id       -->  letter (letter)*
+keyword  -->  letter (letter)*
 letter   -->  A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 number   -->  digit | digit digit | digit digit digit
 digit    -->  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9

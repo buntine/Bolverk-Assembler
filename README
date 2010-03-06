@@ -33,3 +33,5 @@
       LOAD 2, A
   - ASCII Character data type:
       PMCH '$'
+  - Floating-point numbers:
+      LOAD 4, 3.14
