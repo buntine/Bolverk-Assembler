@@ -1,0 +1,6 @@
+-- This program is lexically valid but contains syntax errors.
+LOAD 1, 67
+BALL 2, CHEESE
+BADD 1, 2, 3
+STOR 3, ,
+PMDE 99

@@ -10,4 +10,3 @@ class Bolverk::ASM::SyntaxError < Exception; end
 require File.dirname(__FILE__) + "/monkeypatches/array"
 require File.dirname(__FILE__) + "/monkeypatches/file"
 require File.dirname(__FILE__) + "/asm/parser"
-require File.dirname(__FILE__) + "/asm/lexer"

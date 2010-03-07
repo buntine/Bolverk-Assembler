@@ -71,7 +71,7 @@ class Bolverk::ASM::Parser
     if expected_token == token_type(index)
       true
     else
-      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. Expected: #{expected_token} on line #{token_line(index)}"
+      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. Expected a #{expected_token}. Line #{token_line(index)}"
     end
   end
 
@@ -88,7 +88,7 @@ class Bolverk::ASM::Parser
 
       parse_tokens(index)
     else
-      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)} on line #{token_line(index)}"
+      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}. Line #{token_line(index)}"
     end
   end
 
