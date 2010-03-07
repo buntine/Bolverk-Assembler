@@ -24,16 +24,14 @@ class File
 
   def seek(position)
     p = self.pos
-    inc = 1
 
-    if position > p
-      data = self.old_read(position - p)
+    if position >= p
+      self.read(position - p)
     else
       data = read_from_pos(position, p - position)
-      inc = -1
+      update_line_number(data, -1)
     end
 
-    update_line_number(data, inc)
     position
   end
 

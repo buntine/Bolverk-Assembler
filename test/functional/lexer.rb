@@ -50,6 +50,8 @@ class LexerTest < Test::Unit::TestCase
     assert(@program_a.tokens[1]["line"] == 2, "Expected token[1] to be on line 2")
     assert(@program_a.tokens[6]["line"] == 3, "Expected token[6] to be on line 3")
     assert(@program_a.tokens[12]["line"] == 4, "Expected token[12] to be on line 4")
+    assert(@program_a.tokens[13]["line"] == 4, "Expected token[13] to be on line 4")
+    assert(@program_a.tokens[15]["line"] == 5, "Expected token[15] to be on line 5")
   end
 
   def test_program_a_ends_with_trailing_pseudotoken
@@ -87,6 +89,17 @@ class LexerTest < Test::Unit::TestCase
     assert(token_b["value"] == "2", "Expected value '2' at token 9")
     assert(token_c["value"] == ",", "Expected value ',' at token 10")
     assert(token_d["value"] == "STOR", "Expected value 'STOR' at token 16")
+  end
+
+  def test_program_b_reports_tokens_on_the_correct_line
+    @program_b.scan
+
+    assert(@program_b.tokens[1]["line"] == 3, "Expected token[1] to be on line 3")
+    assert(@program_b.tokens[6]["line"] == 4, "Expected token[6] to be on line 4")
+    assert(@program_b.tokens[15]["line"] == 6, "Expected token[15] to be on line 6")
+    assert(@program_b.tokens[17]["line"] == 7, "Expected token[17] to be on line 7")
+    assert(@program_b.tokens[19]["line"] == 7, "Expected token[19] to be on line 7")
+    assert(@program_b.tokens[20]["line"] == 8, "Expected token[20] to be on line 8")
   end
 
   def test_program_b_ends_with_trailing_pseudotoken
