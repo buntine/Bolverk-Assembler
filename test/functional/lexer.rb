@@ -1,5 +1,4 @@
 require 'test/unit'
-
 require File.join(File.dirname(__FILE__), "../..", "lib", "asm")
 
 class LexerTest < Test::Unit::TestCase

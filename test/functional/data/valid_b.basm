@@ -1,4 +1,4 @@
--- This program is syntactically valid, but contains sementic errors.
+-- This program is lexically and syntactically valid, but contains semantic errors.
 
 LOAD 5, 80
 LOAD 1, 7
