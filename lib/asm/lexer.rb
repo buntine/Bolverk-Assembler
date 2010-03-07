@@ -110,13 +110,11 @@ class Bolverk::ASM::Lexer
     if is_whitespace_or_comment?
       next_token
     else
-      if value != ""
-        { "type" => get_token, "value" => value }
-      else
-        # Here we append an EOF token to help the parser match the
-        # end of the input.
-        { "type" => :eof, "value" => nil }
-      end
+      # Here we append a token from the input programs content, or an EOF
+      # token to help the parser match the end of the input.
+      { "type" => ((value.empty?) ? :eof : get_token),
+        "value" => value,
+        "line" => @stream.line_number }
     end
   end
 

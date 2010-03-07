@@ -44,6 +44,14 @@ class LexerTest < Test::Unit::TestCase
     assert(token_d["value"] == "3", "Expected value '3' at token 15")
   end
 
+  def test_program_a_reports_tokens_on_the_correct_line
+    @program_a.scan
+
+    assert(@program_a.tokens[1]["line"] == 2, "Expected token[1] to be on line 2")
+    assert(@program_a.tokens[6]["line"] == 3, "Expected token[6] to be on line 3")
+    assert(@program_a.tokens[12]["line"] == 4, "Expected token[12] to be on line 4")
+  end
+
   def test_program_a_ends_with_trailing_pseudotoken
     @program_a.scan
     eof_token = @program_a.tokens.last

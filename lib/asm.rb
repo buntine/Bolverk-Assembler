@@ -7,6 +7,7 @@ class Bolverk::ASM::LexicalError < Exception; end
 class Bolverk::ASM::SyntaxError < Exception; end
 
 # Begin the loading sequence.
-require File.dirname(__FILE__) + "/monkeypatches/array.rb"
+require File.dirname(__FILE__) + "/monkeypatches/array"
+require File.dirname(__FILE__) + "/monkeypatches/file"
 require File.dirname(__FILE__) + "/asm/parser"
 require File.dirname(__FILE__) + "/asm/lexer"
