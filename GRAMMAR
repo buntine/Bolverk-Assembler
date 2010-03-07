@@ -38,5 +38,3 @@ PREDICT SET
 5. number_list       --> "number" number_list_tail { number }
 6. number_list_tail  --> "comma" "number" number_list_tail { comma }
 7. number_list_tail  --> EPS { keyword $ }
-
-

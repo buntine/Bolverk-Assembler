@@ -5,7 +5,7 @@
 
 1) Definition
 
-  This is a compiler for an assembly-like language. It complies to the native Bolverk
+  This is a compiler for an assembly-like language. It compiles to the native Bolverk
   instruction set.
 
   An assembly language provides a level of abstraction above the target machines
