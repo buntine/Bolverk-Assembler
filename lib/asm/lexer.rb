@@ -81,7 +81,7 @@ class Bolverk::ASM::Lexer
             break
           # Fatal lexical error.
           else
-            raise Bolverk::ASM::LexicalError, "Disallowed token: #{char}"
+            raise Bolverk::ASM::LexicalError, "Disallowed token: #{char} on line #{@stream.line_number}"
           end
         end
       end
