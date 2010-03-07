@@ -109,4 +109,10 @@ class LexerTest < Test::Unit::TestCase
     assert(eof_token["type"] == :eof)
   end
 
+  def test_program_c_dies_with_lexical_error
+    assert_raise Bolverk::ASM::LexicalError do
+      @program_c.scan
+    end
+  end
+
 end
