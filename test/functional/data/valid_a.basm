@@ -1,6 +1,6 @@
 -- Basic program to test the lexer.
 LOAD 1, 67
-BALL 2, 124
-BADD 1, 2, 3   -- Add (as Binary) the contents of register 1 and 2. Store the result in register 3.
-STOR 3, 99
-PMDE 99
+BALL 2 --, 124
+--BADD 1, 2, 3   -- Add (as Binary) the contents of register 1 and 2. Store the result in register 3.
+--STOR 3, 99
+--PMDE 99
