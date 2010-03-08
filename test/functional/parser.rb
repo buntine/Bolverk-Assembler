@@ -15,29 +15,6 @@ class ParserTest < Test::Unit::TestCase
   end
 
   def test_program_a_parses_correctly
-#    [:program]
-#    []p: [:program, [:statement_list], [:eof]]
-#    [1]p: [:program, [:statement_list, [:statement], [:statement_list]], [:eof]]
-#    [1 1]p: [:program, [:statement_list, [:statement, [:keyword], [:number_list]], [:statement_list]], [:eof]]
-#    [1 1 1]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list]], [:statement_list]], [:eof]]
-#    [1 1 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [:number], [:number_list]]], [:statement_list]], [:eof]]
-#    [1 1 2 1]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail]]], [:statement_list]], [:eof]]
-#    [1 1 2 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, ["COMMA"], ["NUMBER"], [:number_list_tail]]]], [:statement_list]], [:eof]]
-#    [1 1 2 2 1]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], ["NUMBER"], [:number_list_tail]]]], [:statement_list]], [:eof]]
-#    [1 1 2 2 2]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail]]]], [:statement_list]], [:eof]]
-#    [1 1 2 2 3]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list]], [:eof]]
-##    [1 1 2 2 3 1]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list]], [:eof]]
-#    [1 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement], [:statement_list]]], [:eof]]
-#    [1 2 1]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [:keyword], [:number_list]], [:statement_list]]], [:eof]]
-#    [1 2 1 1]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list]], [:statement_list]]], [:eof]]
-#    [1 2 1 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [:number], [:number_list_tail]]], [:statement_list]]], [:eof]]
-#    [1 2 1 2 1]m: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail]]], [:statement_list]]], [:eof]]
-#    [1 2 1 2 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [:epsilon]]]], [:statement_list]]], [:eof]]
-#    [1 2 1 2 2 1]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [:epsilon]]]], [:statement_list]]], [:eof]]
-#    [1 2 2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [:epsilon]]]], [:statement_list, [:epsilon]]]], [:eof]]
-#    [1 2 2 1]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [:epsilon]]]], [:statement_list, [:epsilon]]]], [:eof]]
-#    [2]p: [:program, [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [COMMA], [NUMBER], [:number_list_tail, [:epsilon]]]]], [:statement_list, [:statement, [KEYWORD], [:number_list, [NUMBER], [:number_list_tail, [:epsilon]]]], [:statement_list, [:epsilon]]]], [:eof]]
-
     parse_tree = [:program,
                    [:statement_list,
                      [:statement,
@@ -60,10 +37,13 @@ class ParserTest < Test::Unit::TestCase
                          ["EPSILON"]]]],
                    [:eof]]]
 
-  #  assert_not_raise Bolverk::ASM::SyntaxError do
-  #    assert(@program_a.parse == parse_tree, "Expected Program A to parse successfully")
-  #  end
-    assert(@program_a.parse)
+    assert_nothing_raised do
+      tree = @program_a.parse
+
+      assert(tree[0] == :program, "Expected Program A to parse successfully")
+      assert(tree[1][0] == :statement_list, "Expected Program A to parse successfully")
+      assert(tree[1][1][1].class == Hash, "Expected Program A to parse successfully")
+    end
   end
 
 #  def test_program_b_parses_correctly

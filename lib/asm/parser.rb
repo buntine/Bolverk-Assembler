@@ -69,7 +69,7 @@ class Bolverk::ASM::Parser
   # has predicted. A non-match results in a syntax error.
   def match(expected_token, index, tree_path)
     if expected_token == token_type(index)
-      set_node_by_path(tree_path, expected_token)
+      set_node_by_path(tree_path, index)
       true
     else
       raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. " +
@@ -109,9 +109,7 @@ class Bolverk::ASM::Parser
     butlast = remaining_path[0..-2]
     node = node_for_path(butlast)
 
-    if butlast.empty?
-      nil
-    elsif node.length > index + 1
+    if node.length > index + 1
       butlast + [remaining_path.last + 1]
     else
       find_suitable_branch(butlast, butlast.last)
@@ -133,11 +131,11 @@ class Bolverk::ASM::Parser
   # tree structure.
   def set_node_by_path(path, index)
     parent = node_for_path(path[0..-2])
-    parent[tree_path.last] = [@tokens[current_token]]
+    parent[path.last] = [@tokens[index]]
   end
 
   def increment_path(path)
-    path[0..-2] + [path.last + 1])
+    path[0..-2] + [path.last + 1]
   end
 
   def extend_path(path)
