@@ -53,7 +53,7 @@ class Bolverk::ASM::Parser
     if is_terminal?(expected_symbol)
       match(expected_symbol, current_token)
 
-      node_for_path(tree_path[0..-2])[tree_path.last] = @tokens[current_token]
+      node_for_path(tree_path[0..-2])[tree_path.last] = [@tokens[current_token]]
 
       # If true, we are finished and can clean up.
       if is_eof?(current_token) 
@@ -94,7 +94,7 @@ class Bolverk::ASM::Parser
       # Epsilon production, look back up the tree for the next branch.
       if production.empty?
         node << [:epsilon]
-        parse_tokens(index, find_suitable_branch(tree_path + [1], 1))
+        parse_tokens(index, find_suitable_branch(tree_path[0..-2], tree_path.last))
       else
         production.each { |p| node << [p] }
         parse_tokens(index, tree_path + [1])
@@ -103,8 +103,6 @@ class Bolverk::ASM::Parser
       raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}. Line #{token_line(index)}"
     end
   end
-#1 1 2 2 3
-#1
 
   def find_suitable_branch(remaining_path, index)
     node = node_for_path(remaining_path[0..-2])
