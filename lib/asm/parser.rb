@@ -51,16 +51,13 @@ class Bolverk::ASM::Parser
   def parse_tokens(current_token=0, tree_path=[])
     expected_symbol = @stack.shift
     if is_terminal?(expected_symbol)
-      match(expected_symbol, current_token)
+      match(expected_symbol, current_token, tree_path)
 
-      node_for_path(tree_path[0..-2])[tree_path.last] = [@tokens[current_token]]
-
-      # If true, we are finished and can clean up.
+      # If true, we are finished and can clean up and return the parse tree.
       if is_eof?(current_token) 
-        puts @parse_tree.inspect
-        true
+        @parse_tree
       else
-        parse_tokens(current_token + 1, tree_path[0..-2] + [tree_path.last + 1])
+        parse_tokens(current_token + 1, increment_path(tree_path)) 
       end
     # We are dealing with a non-terminal, which may need to be expanded.
     else
@@ -70,11 +67,13 @@ class Bolverk::ASM::Parser
 
   # Matches the current token with whatever the parse table
   # has predicted. A non-match results in a syntax error.
-  def match(expected_token, index)
+  def match(expected_token, index, tree_path)
     if expected_token == token_type(index)
+      set_node_by_path(tree_path, expected_token)
       true
     else
-      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. Expected a #{expected_token}. Line #{token_line(index)}"
+      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. " +
+                                       "Expected a #{expected_token}. Line #{token_line(index)}"
     end
   end
 
@@ -97,20 +96,25 @@ class Bolverk::ASM::Parser
         parse_tokens(index, find_suitable_branch(tree_path[0..-2], tree_path.last))
       else
         production.each { |p| node << [p] }
-        parse_tokens(index, tree_path + [1])
+        parse_tokens(index, extend_path(tree_path))
       end
     else
       raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}. Line #{token_line(index)}"
     end
   end
 
+  # Searches back up the tree until a non-expended branch is found.
+  # Returns a path to said branch or nil.
   def find_suitable_branch(remaining_path, index)
-    node = node_for_path(remaining_path[0..-2])
+    butlast = remaining_path[0..-2]
+    node = node_for_path(butlast)
 
-    if node.length > index + 1
-      remaining_path[0..-2] + [remaining_path.last + 1]
+    if butlast.empty?
+      nil
+    elsif node.length > index + 1
+      butlast + [remaining_path.last + 1]
     else
-      find_suitable_branch(remaining_path[0..-2], remaining_path[0..-2].last)
+      find_suitable_branch(butlast, butlast.last)
     end
   end
 
@@ -122,6 +126,22 @@ class Bolverk::ASM::Parser
     else
       node_for_path(path, subtree[path[index]], index + 1)
     end
+  end
+
+  # Updates the node at 'path' with the token at 'index'.
+  # The token is wrapped in an array to preserve the tree
+  # tree structure.
+  def set_node_by_path(path, index)
+    parent = node_for_path(path[0..-2])
+    parent[tree_path.last] = [@tokens[current_token]]
+  end
+
+  def increment_path(path)
+    path[0..-2] + [path.last + 1])
+  end
+
+  def extend_path(path)
+    path + [1]
   end
 
   # Consults the parse table for a prediction, given an expected symbol
