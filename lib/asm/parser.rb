@@ -53,7 +53,7 @@ class Bolverk::ASM::Parser
     if is_terminal?(expected_symbol)
       match(expected_symbol, current_token)
 
-      node_for_path(tree_path[0..-2])[tree_path.last] = token_value(current_token)
+      node_for_path(tree_path[0..-2])[tree_path.last] = @tokens[current_token]
 
       # If true, we are finished and can clean up.
       if is_eof?(current_token) 
