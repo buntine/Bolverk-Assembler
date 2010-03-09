@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + "/lexer"
+require File.dirname(__FILE__) + "/parsetree"
 
 class Bolverk::ASM::Parser
 
@@ -29,7 +30,6 @@ class Bolverk::ASM::Parser
 
   def initialize(stream)
     @stream = stream
-    @parse_tree = []
   end
 
   # Configures the object for parsing. Returns the constructed parse tree
@@ -39,7 +39,7 @@ class Bolverk::ASM::Parser
 
     @tokens = scanner.scan
     @stack = [:program]
-    @parse_tree << :program
+    @parse_tree = Bolverk::ASM::ParseTree.new(:program)
     
     parse_tokens
   end
@@ -57,7 +57,7 @@ class Bolverk::ASM::Parser
       if is_eof?(current_token) 
         @parse_tree
       else
-        parse_tokens(current_token + 1, increment_path(tree_path)) 
+        parse_tokens(current_token + 1, @parse_tree.increment_path(tree_path)) 
       end
     # We are dealing with a non-terminal, which may need to be expanded.
     else
@@ -69,8 +69,7 @@ class Bolverk::ASM::Parser
   # has predicted. A non-match results in a syntax error.
   def match(expected_token, index, tree_path)
     if expected_token == token_type(index)
-      set_node_by_path(tree_path, index)
-      true
+      @parse_tree.set_node_by_path(tree_path, @tokens[index])
     else
       raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. " +
                                        "Expected a #{expected_token}. Line #{token_line(index)}"
@@ -88,58 +87,17 @@ class Bolverk::ASM::Parser
         @stack.fpush(p)
       end
 
-      node = node_for_path(tree_path)
-
       # Epsilon production, look back up the tree for the next branch.
       if production.empty?
-        node << [:epsilon]
-        parse_tokens(index, find_suitable_branch(tree_path[0..-2], tree_path.last))
+        @parse_tree.insert_prediction(tree_path, [:epsilon])
+        parse_tokens(index, @parse_tree.find_suitable_branch(tree_path.butlast, tree_path.last))
       else
-        production.each { |p| node << [p] }
-        parse_tokens(index, extend_path(tree_path))
+        @parse_tree.insert_prediction(tree_path, production)
+        parse_tokens(index, @parse_tree.extend_path(tree_path))
       end
     else
       raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}. Line #{token_line(index)}"
     end
-  end
-
-  # Searches back up the tree until a non-expended branch is found.
-  # Returns a path to said branch or nil.
-  def find_suitable_branch(remaining_path, index)
-    butlast = remaining_path[0..-2]
-    node = node_for_path(butlast)
-
-    if node.length > index + 1
-      butlast + [remaining_path.last + 1]
-    else
-      find_suitable_branch(butlast, butlast.last)
-    end
-  end
-
-  # Returns the node of the parse tree that corresponds to the given
-  # path. [1 2 1] --> @parse_tree[1][2][1]
-  def node_for_path(path, subtree=@parse_tree, index=0)
-    if index == path.length
-      subtree
-    else
-      node_for_path(path, subtree[path[index]], index + 1)
-    end
-  end
-
-  # Updates the node at 'path' with the token at 'index'.
-  # The token is wrapped in an array to preserve the tree
-  # tree structure.
-  def set_node_by_path(path, index)
-    parent = node_for_path(path[0..-2])
-    parent[path.last] = [@tokens[index]]
-  end
-
-  def increment_path(path)
-    path[0..-2] + [path.last + 1]
-  end
-
-  def extend_path(path)
-    path + [1]
   end
 
   # Consults the parse table for a prediction, given an expected symbol

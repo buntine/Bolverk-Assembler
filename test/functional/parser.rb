@@ -15,35 +15,39 @@ class ParserTest < Test::Unit::TestCase
   end
 
   def test_program_a_parses_correctly
-    parse_tree = [:program,
-                   [:statement_list,
-                     [:statement,
-                       ["KEYWORD"],
-                       [:number_list,
-                         ["NUMBER]",
-                         [:number_list_tail,
-                           ["COMMA"],
-                           ["NUMBER"],
-                           [:number_list_tail,
-                             ["EPSILON"]]]]],
-                     [:statement_list,
-                       [:statement,
-                         ["KEYWORD"],
-                         [:number_list,
-                           ["NUMBER"],
-                           [:number_list_tail,
-                             ["EPSILON"]]]],
-                       [:statement_list,
-                         ["EPSILON"]]]],
-                   [:eof]]]
+    # Here is the valid (except for terminal structure) parse tree
+    # for the program stored in ./data/valid_c.basm
+    [:program,
+      [:statement_list,
+        [:statement,
+          ["KEYWORD"],
+          [:number_list,
+            ["NUMBER]",
+            [:number_list_tail,
+              ["COMMA"],
+              ["NUMBER"],
+              [:number_list_tail,
+                ["EPSILON"]]]]],
+        [:statement_list,
+          [:statement,
+            ["KEYWORD"],
+            [:number_list,
+              ["NUMBER"],
+              [:number_list_tail,
+                ["EPSILON"]]]],
+          [:statement_list,
+            ["EPSILON"]]]],
+      [:eof]]]
 
-    assert_nothing_raised do
       tree = @program_a.parse
 
-      assert(tree[0] == :program, "Expected Program A to parse successfully")
-      assert(tree[1][0] == :statement_list, "Expected Program A to parse successfully")
-      assert(tree[1][1][1].class == Hash, "Expected Program A to parse successfully")
-    end
+      # Just test that a bunch of the program tokens are in the correct indexes.
+      assert(tree[0] == :program, "Expected tree[0] to be :program")
+      assert(tree[1][0] == :statement_list, "Expected tree[1][0] to be :statement_list")
+      assert(tree[1][1][1][0].class == Hash, "Expected tree[1][1][1] to be a Hash")
+      assert(tree[1][1][2][2][0] == :number_list_tail, "Expected tree[1][1][2][2] to be :number_list_tail")
+      assert(tree[1][1][2][1][0].class == Hash, "Expected tree[1][1][2][1][0] to be a Hash")
+      assert(tree[1][1][2][2][3][1][0] == :epsilon, "Expected tree[1][1][2][2][3][1][0] to be :epsilon")
   end
 
 #  def test_program_b_parses_correctly
