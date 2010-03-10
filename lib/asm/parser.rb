@@ -83,15 +83,17 @@ class Bolverk::ASM::Parser
 
     if prediction
       production = @@production_table[prediction - 1]
-      production.reverse.each do |p|
-        @stack.fpush(p)
-      end
 
       # Epsilon production, look back up the tree for the next branch.
       if production.empty?
         @parse_tree.insert_prediction(tree_path, [:epsilon])
         parse_tokens(index, @parse_tree.find_suitable_branch(tree_path.butlast, tree_path.last))
       else
+        # Add the production to the parse stack for future inspection.
+        production.reverse.each do |p|
+          @stack.fpush(p)
+        end
+
         @parse_tree.insert_prediction(tree_path, production)
         parse_tokens(index, @parse_tree.extend_path(tree_path))
       end
