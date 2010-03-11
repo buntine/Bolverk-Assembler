@@ -50,11 +50,12 @@ class Bolverk::ASM::Parser
   # errors.
   def parse_tokens(current_token=0, tree_path=[])
     expected_symbol = @stack.shift
+
     if is_terminal?(expected_symbol)
       match(expected_symbol, current_token, tree_path)
 
       # If true, we are finished and can clean up and return the parse tree.
-      if is_eof?(current_token) 
+      if @tokens[current_token].is_eof?
         @parse_tree
       else
         parse_tokens(current_token + 1, @parse_tree.increment_path(tree_path)) 
@@ -68,11 +69,11 @@ class Bolverk::ASM::Parser
   # Matches the current token with whatever the parse table
   # has predicted. A non-match results in a syntax error.
   def match(expected_token, index, tree_path)
-    if expected_token == token_type(index)
+    if expected_token == @tokens[index].type
       @parse_tree.set_node_by_path(tree_path, @tokens[index])
     else
-      raise Bolverk::ASM::SyntaxError, "Wrong token: #{token_value(index)}. " +
-                                       "Expected a #{expected_token}. Line #{token_line(index)}"
+      raise Bolverk::ASM::SyntaxError, "Wrong token: #{@tokens[index].value}. " +
+                                       "Expected a #{expected_token}. Line #{@tokens[index].line}"
     end
   end
 
@@ -96,34 +97,18 @@ class Bolverk::ASM::Parser
         parse_tokens(index, @parse_tree.extend_path(tree_path))
       end
     else
-      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{token_value(index)}. Line #{token_line(index)}"
+      raise Bolverk::ASM::SyntaxError, "Unexpected token: #{@tokens[index].value}. Line #{@tokens[index].line}"
     end
   end
 
   # Consults the parse table for a prediction, given an expected symbol
   # and token.
   def fetch_prediction(expected_symbol, index)
-    @@parse_table[expected_symbol][token_type(index)]
+    @@parse_table[expected_symbol][@tokens[index].type]
   end
 
   def is_terminal?(symbol)
     [ :comma, :number, :keyword, :eof ].include?(symbol)
-  end
-
-  def token_type(index)
-    @tokens[index]["type"]
-  end
-
-  def token_value(index)
-    @tokens[index]["value"]
-  end
-
-  def token_line(index)
-    @tokens[index]["line"]
-  end
-
-  def is_eof?(index)
-    token_type(index) == :eof
   end
 
 end

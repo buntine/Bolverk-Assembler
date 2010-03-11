@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + "/token"
+
 class Bolverk::ASM::Lexer
 
   # Table-driven lexical analyser for Bolverk assembly. Scans an input program and returns an
@@ -39,7 +41,7 @@ class Bolverk::ASM::Lexer
   def scan
     @tokens << next_token
 
-    if is_eof?
+    if @tokens.last.is_eof?
       @tokens
     else
       scan
@@ -91,7 +93,7 @@ class Bolverk::ASM::Lexer
   end
 
   def recognizable?
-    !!get_token
+    !!get_token_name
   end
 
   # Recovers from a lexical error by "unreading" the remembered
@@ -112,14 +114,13 @@ class Bolverk::ASM::Lexer
     else
       # Here we append a token from the input programs content, or an EOF
       # token to help the parser match the end of the input.
-      { "type" => ((value.empty?) ? :eof : get_token),
-        "value" => value,
-        "line" => @stream.line_number }
+      type = (value.empty?) ? :eof : get_token_name
+      Bolverk::ASM::Token.new(type, value, @stream.line_number)
     end
   end
 
   # Returns the token (if any) for the current state.
-  def get_token
+  def get_token_name
     @@token_list[@state - 1]
   end
 
@@ -129,11 +130,7 @@ class Bolverk::ASM::Lexer
   end
 
   def is_whitespace_or_comment?
-    [:whitespace, :comment].include?(get_token)
-  end
-
-  def is_eof?
-    @tokens.last["type"] == :eof
+    [:whitespace, :comment].include?(get_token_name)
   end
 
 end

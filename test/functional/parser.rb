@@ -45,9 +45,9 @@ class ParserTest < Test::Unit::TestCase
       # Just test that a bunch of the program tokens are in the correct indexes.
       assert(tree[0] == :program, "Expected tree[0] to be :program")
       assert(tree[1][0] == :statement_list, "Expected tree[1][0] to be :statement_list")
-      assert(tree[1][1][1][0].class == Hash, "Expected tree[1][1][1] to be a Hash")
+      assert(tree[1][1][1][0].class == Bolverk::ASM::Token, "Expected tree[1][1][1] to be a token")
       assert(tree[1][1][2][2][0] == :number_list_tail, "Expected tree[1][1][2][2] to be :number_list_tail")
-      assert(tree[1][1][2][1][0].class == Hash, "Expected tree[1][1][2][1][0] to be a Hash")
+      assert(tree[1][1][2][1][0].class == Bolverk::ASM::Token, "Expected tree[1][1][2][1][0] to be a token")
       assert(tree[1][1][2][2][3][1][0] == :epsilon, "Expected tree[1][1][2][2][3][1][0] to be :epsilon")
   end
 
