@@ -17,7 +17,8 @@
   To make things easier for us humans (and lexical analysis), all numbers (memory
   cells, registers, etc) must be denoted in decimal.
 
-  Any decimal number in the range 0..255 can be replaced with it's ASCII equivelant.
+  Any decimal number in the range 0..255 can be replaced with it's ASCII equivelant. Characters
+  must be wrapped in single quotes.
 
 2) Example
 
@@ -28,8 +29,8 @@
   DADD 1, 2, 4   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 4.
   STOR 4, 161
   STOR 3, 160
-  PMDE 161       -- Print Memory cell 161 (A1) as decimal
-  PMCH 160       -- Print Memory cell 160 (9F) as an ASCII character
+  PMDE 161       -- Print Memory cell 161 (A1) as decimal.
+  PMCH 160       -- Print Memory cell 160 (9F) as an ASCII character.
 
 3) TODO
 
