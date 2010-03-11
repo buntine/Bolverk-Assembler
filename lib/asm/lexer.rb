@@ -9,33 +9,39 @@ class Bolverk::ASM::Lexer
 
   # Scan table as translated from a deterministic state automaton. This table is used
   # to find the next state given a current state and input character. A nil value denotes
-  # that no action can be taken.
+  # that no action can be taken. Each outer-index represents the corresponding state.
   @@scan_table = [
-    [[/,/, 2],   [/-/, 7],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 9],   [/\s|\t/, 9],   [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, 3],   [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 5],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 6],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, 8],   [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, 8],   [/-/, 8],   [/[a-zA-Z]/, 8],   [/[0-9]/, 8],   [/\n/, 10],   [/\s|\t/, 8],  [/.*/, 8]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, 9],   [/\s|\t/, 9],   [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]]
+    [[/,/, 2],   [/-/, 7],   [/'/, 9],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 12],   [/\s|\t/, 12],   [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, 3],   [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 5],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 6],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, 8],   [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, 8],   [/-/, 8],   [/'/, 8],   [/[a-zA-Z]/, 8],   [/[0-9]/, 8],   [/\n/, 13],   [/\s|\t/, 8],  [/.*/, 8]],
+    [[/,/, 10],  [/-/, 10],  [/'/, 10],  [/[a-zA-Z]/, 10],  [/[0-9]/, 10],  [/\n/, 10],  [/\s|\t/, 10],  [/.*/, 10]],
+    [[/,/, nil], [/-/, nil], [/'/, 11],  [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, 12],   [/\s|\t/, 12],   [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]]
   ]
 
   # Token table. Each index, n, represents the token that can be recognised when the
   # lexer is at state n+1.
-  @@token_list = [ nil, :comma, :keyword, :number, :number,
-                   :number, nil, nil, :whitespace, :comment ]
+  @@token_list = [ nil, :comma, :keyword,
+                   :number, :number, :number, 
+                   nil, nil, nil, nil, :char,
+                   :whitespace, :comment ]
 
   def initialize(stream)
     @stream = stream
     @tokens = []
   end
 
-  # Scans the program input and returns an array of tokens in the
-  # following format:
-  #   { "type" => :keyword, "value" => "STOR", "line" => 3 }
+  # Scans the program input and returns an array of token objects
+  # with the following data:
+  #   type (:keyword), value ("STOR"), "line" (3)
+  #
   # Produces a LexicalError exception when lexically invalid input
   # is received.
   def scan

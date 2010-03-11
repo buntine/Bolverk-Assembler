@@ -1,7 +1,7 @@
 -- This program is lexically and syntactically valid, but contains semantic errors.
 
-LOAD 5, 80
-LOAD 1, 7
+LOAD 5, 'H'
+LOAD 6, 'i' -- Characters should be translated to integers by the scanner.
 LOAD 2, 260 -- Number is too large.
 BADD 1, 2   -- BADD requires three arguments.
 STOR 3, 99

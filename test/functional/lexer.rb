@@ -82,19 +82,25 @@ class LexerTest < Test::Unit::TestCase
     @program_b.scan
 
     token_a = @program_b.tokens[0]
-    token_b = @program_b.tokens[9]
-    token_c = @program_b.tokens[10]
-    token_d = @program_b.tokens[16]
+    token_b = @program_b.tokens[3]
+    token_c = @program_b.tokens[9]
+    token_d = @program_b.tokens[10]
+    token_e = @program_b.tokens[16]
 
     assert(token_a.type == :keyword, "Expected :keyword at token 1")
-    assert(token_b.type == :number, "Expected :number at token 9")
-    assert(token_c.type == :comma, "Expected :comma at token 10")
-    assert(token_d.type == :keyword, "Expected :keyword at token 16")
+
+    # Note: Characters are translated to numbers during the scan phase.
+    assert(token_b.type == :number, "Expected :number at token 4")
+
+    assert(token_c.type == :number, "Expected :number at token 10")
+    assert(token_d.type == :comma, "Expected :comma at token 11")
+    assert(token_e.type == :keyword, "Expected :keyword at token 17")
 
     assert(token_a.value == "LOAD", "Expected value 'LOAD' at token 1")
-    assert(token_b.value == "2", "Expected value '2' at token 9")
-    assert(token_c.value == ",", "Expected value ',' at token 10")
-    assert(token_d.value == "STOR", "Expected value 'STOR' at token 16")
+    assert(token_b.value == "H", "Expected value 'H' at token 4")
+    assert(token_c.value == "2", "Expected value '2' at token 10")
+    assert(token_d.value == ",", "Expected value ',' at token 11")
+    assert(token_e.value == "STOR", "Expected value 'STOR' at token 17")
   end
 
   def test_program_b_reports_tokens_on_the_correct_line
