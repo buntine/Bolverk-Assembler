@@ -23,13 +23,13 @@
 2) Example
 
   -- Print the sum of two decimal numbers: (44 + 120) with much excitement.
-  LOAD 1, 44
-  LOAD 2, 120
-  DADD 1, 2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
-  STOR 3, 160
+  LOAD 1,   44
+  LOAD 2,   120
+  DADD 1,   2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
+  STOR 3,   160
   WRIT '!', 161
-  PMDE 160       -- Print Memory cell 160 (9F) as decimal.
-  PMCH 161       -- Print Memory cell 161 (A1) as an ASCII character.
+  PMDE 160         -- Print Memory cell 160 (A0) as decimal.
+  PMCH 161         -- Print Memory cell 161 (A1) as an ASCII character.
 
 3) TODO
 

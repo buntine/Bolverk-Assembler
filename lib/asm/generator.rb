@@ -30,7 +30,7 @@ class Bolverk::ASM::Generator
       assert_proc_exists(procedure)
       assert_correct_args(procedure, statement[2..-1])
 
-      source << self.send("proc_#{procedure}", statement[2..-1])
+      source << self.send("proc_#{procedure}", *statement[2..-1])
     end
 
     source.join("\n")
