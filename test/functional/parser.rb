@@ -24,7 +24,7 @@ class ParserTest < Test::Unit::TestCase
         [:statement,
           ["KEYWORD"],
           [:number_list,
-            ["NUMBER]",
+            ["NUMBER"],
             [:number_list_tail,
               ["COMMA"],
               ["NUMBER"],
@@ -39,7 +39,7 @@ class ParserTest < Test::Unit::TestCase
                 ["EPSILON"]]]],
           [:statement_list,
             ["EPSILON"]]]],
-      [:eof]]]
+      [:eof]]
 
       tree = @program_c.parse
 
