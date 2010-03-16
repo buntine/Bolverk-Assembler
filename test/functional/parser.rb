@@ -18,6 +18,7 @@ class ParserTest < Test::Unit::TestCase
   def test_program_c_parses_correctly
     # Here is the valid (except for terminal structure) parse tree
     # for the program stored in ./data/valid_c.basm
+    # It's only here for reference to Human readers.
     [:program,
       [:statement_list,
         [:statement,
