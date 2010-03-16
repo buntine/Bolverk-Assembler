@@ -1,4 +1,8 @@
+require File.dirname(__FILE__) + "/procedures"
+
 class Bolverk::ASM::Generator
+
+  include Bolverk::ASM::Procedures
 
   # A code-generator. This constitutes the back-end of the compiler.
   # I'm taking a bit of an ad-hoc approach here, but basically the
@@ -26,7 +30,7 @@ class Bolverk::ASM::Generator
       assert_proc_exists(procedure)
       assert_correct_args(procedure, statement[2..-1])
 
-      source << Bolverk::ASM::Procedures.send(procedure, statement[2..-1])
+      source << self.send("proc_#{procedure}", statement[2..-1])
     end
 
     source.join("\n")
@@ -45,14 +49,6 @@ class Bolverk::ASM::Generator
       [:statement,
         "KEYWORD",
         "NUMBER"]]
-  end
-
-  def assert_proc_exists(name)
-
-  end
-
-  def assert_correct_args(name, args)
-
   end
 
 end
