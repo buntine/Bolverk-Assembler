@@ -41,7 +41,7 @@ class Bolverk::ASM::Generator
   # Simplifies the parse tree into an abstract syntax tree
   # for evaluation.
   def generate_syntax_tree
-    build_ast(@parse_tree)[0]
+    build_ast(@parse_tree).first
   end
 
   # Actually builds the AST from the parse tree. This method
@@ -51,9 +51,9 @@ class Bolverk::ASM::Generator
       is_useful_terminal?(tree.first) ? tree : []
     else
       if is_useful_non_terminal?(tree.first)
-        [[tree.first] + syntax_tree_in_forest(tree.butfirst)]
+        [[tree.first] + build_ast_in_forest(tree.butfirst)]
       else
-        syntax_tree_in_forest(tree.butfirst)
+        build_ast_in_forest(tree.butfirst)
       end
     end
   end
@@ -63,7 +63,7 @@ class Bolverk::ASM::Generator
     if trees.empty?
       []
     else
-      syntax_tree(trees.first) + syntax_tree_in_forest(trees.butfirst)
+      build_ast(trees.first) + build_ast_in_forest(trees.butfirst)
     end
   end
 
