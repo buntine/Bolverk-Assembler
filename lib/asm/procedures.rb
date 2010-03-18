@@ -33,7 +33,8 @@ module Bolverk::ASM::Procedures
   # will accept the given arguments.
   def assert_correct_args(token, args)
     name = p_name(token)
-    arg_count = { "load" => 2, "stor" => 2, "badd" => 3, "pmde" => 1 }
+    arg_count = { "load" => 2, "stor" => 2, "badd" => 3,
+                  "pmde" => 1 }
 
     unless arg_count[name] == args.length
       raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_count[name]} arguments. Given #{args.length}."

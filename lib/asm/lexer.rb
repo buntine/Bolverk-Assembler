@@ -11,18 +11,18 @@ class Bolverk::ASM::Lexer
   # to find the next state given a current state and input character. A nil value denotes
   # that no action can be taken. Each outer-index represents the corresponding state.
   @@scan_table = [
-    [[/,/, 2],   [/-/, 7],   [/'/, 9],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 12],   [/\s|\t/, 12],   [/.*/, nil]],
+    [[/,/, 2],   [/-/, 7],   [/'/, 9],   [/[a-zA-Z]/, 3],   [/[0-9]/, 4],   [/\n/, 12],  [/\s|\t/, 12],  [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, 3],   [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 5],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, 6],   [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, 8],   [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, 8],   [/-/, 8],   [/'/, 8],   [/[a-zA-Z]/, 8],   [/[0-9]/, 8],   [/\n/, 13],   [/\s|\t/, 8],  [/.*/, 8]],
+    [[/,/, 8],   [/-/, 8],   [/'/, 8],   [/[a-zA-Z]/, 8],   [/[0-9]/, 8],   [/\n/, 13],  [/\s|\t/, 8],   [/.*/, 8]],
     [[/,/, 10],  [/-/, 10],  [/'/, 10],  [/[a-zA-Z]/, 10],  [/[0-9]/, 10],  [/\n/, 10],  [/\s|\t/, 10],  [/.*/, 10]],
     [[/,/, nil], [/-/, nil], [/'/, 11],  [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]],
-    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, 12],   [/\s|\t/, 12],   [/.*/, nil]],
+    [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, 12],  [/\s|\t/, 12],  [/.*/, nil]],
     [[/,/, nil], [/-/, nil], [/'/, nil], [/[a-zA-Z]/, nil], [/[0-9]/, nil], [/\n/, nil], [/\s|\t/, nil], [/.*/, nil]]
   ]
 

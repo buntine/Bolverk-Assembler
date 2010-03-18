@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + "/lexer"
 require File.dirname(__FILE__) + "/parsetree"
 
 class Bolverk::ASM::Parser
@@ -28,16 +27,16 @@ class Bolverk::ASM::Parser
     []                                    # number_list_tail (epsilon)
   ]
 
-  def initialize(stream)
-    @stream = stream
+  def initialize(tokens)
+    @tokens = tokens
   end
 
   # Configures the object for parsing. Returns the constructed parse tree
   # or dies with a Syntax Error.
   def parse
-    scanner = Bolverk::ASM::Lexer.new(@stream)
+    #scanner = Bolverk::ASM::Lexer.new(@stream)
 
-    @tokens = scanner.scan
+    #@tokens = scanner.scan
     @stack = [:program]
     @parse_tree = Bolverk::ASM::ParseTree.new(:program)
     
