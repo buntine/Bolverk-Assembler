@@ -13,6 +13,14 @@ module Bolverk::ASM::Procedures
     "2" + h(register) + h(value)
   end
 
+  def proc_badd(a, b, result)
+    "5" + h(a) + h(b) + h(result)
+  end
+
+  def proc_pmde(memory_cell)
+    "D1" + h(memory_cell)
+  end
+
   # Semantic check to ensure given procedure exists.
   def assert_proc_exists(token)
     name = proc_name(token)
@@ -25,7 +33,7 @@ module Bolverk::ASM::Procedures
   # will accept the given arguments.
   def assert_correct_args(token, args)
     name = proc_name(token)
-    arg_count = { "load" => 2, "stor" => 2 }
+    arg_count = { "load" => 2, "stor" => 2, "badd" => 3, "pmde" => 1 }
 
     unless arg_count[name] == args.length
       raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_count[name]} arguments. Given #{args.length}."

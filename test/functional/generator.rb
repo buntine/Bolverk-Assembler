@@ -16,9 +16,10 @@ class GeneratorTest < Test::Unit::TestCase
     @tree_a = @program_a.parse
     @generator_a = Bolverk::ASM::Generator.new(@tree_a)
 
-    assert_equal(@generator_a.generate, "111 111 111 111")
+    assert_equal(@generator_a.generate, "2143\n227c\n5123\n3363\nD163")
   end
 
+  # One of the calls to LOAD only supplies one argument.
   def test_program_c_should_cause_semantic_error
     @tree_c = @program_c.parse
     @generator_c = Bolverk::ASM::Generator.new(@tree_c)
