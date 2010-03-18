@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + "/asm/lexer"
-require File.dirname(__FILE__) + "/asm/parser"
-require File.dirname(__FILE__) + "/asm/generator"
+require File.dirname(__FILE__) + "/lexer"
+require File.dirname(__FILE__) + "/parser"
+require File.dirname(__FILE__) + "/generator"
 
 class Bolverk::ASM::Compiler
 

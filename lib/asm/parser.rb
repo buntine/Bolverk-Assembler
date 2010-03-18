@@ -34,9 +34,6 @@ class Bolverk::ASM::Parser
   # Configures the object for parsing. Returns the constructed parse tree
   # or dies with a Syntax Error.
   def parse
-    #scanner = Bolverk::ASM::Lexer.new(@stream)
-
-    #@tokens = scanner.scan
     @stack = [:program]
     @parse_tree = Bolverk::ASM::ParseTree.new(:program)
     

@@ -7,9 +7,14 @@ class GeneratorTest < Test::Unit::TestCase
 
   def setup
     path = lambda { |file| File.join(File.dirname(__FILE__), "data", file) }
-    @program_a = Bolverk::ASM::Parser.new(File.open(path.call("valid_a.basm")))
-    @program_b = Bolverk::ASM::Parser.new(File.open(path.call("valid_b.basm")))
-    @program_c = Bolverk::ASM::Parser.new(File.open(path.call("valid_c.basm")))
+
+    @tokens_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm"))).scan
+    @tokens_b = Bolverk::ASM::Lexer.new(File.open(path.call("valid_b.basm"))).scan
+    @tokens_c = Bolverk::ASM::Lexer.new(File.open(path.call("valid_c.basm"))).scan
+
+    @program_a = Bolverk::ASM::Parser.new(@tokens_a)
+    @program_b = Bolverk::ASM::Parser.new(@tokens_b)
+    @program_c = Bolverk::ASM::Parser.new(@tokens_c)
   end
 
   def test_program_a_should_generate_valid_machine_code

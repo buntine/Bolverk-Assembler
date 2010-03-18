@@ -8,11 +8,16 @@ class ParserTest < Test::Unit::TestCase
 
   def setup
     path = lambda { |file| File.join(File.dirname(__FILE__), "data", file) }
-    @program_a = Bolverk::ASM::Parser.new(File.open(path.call("valid_a.basm")))
-    @program_b = Bolverk::ASM::Parser.new(File.open(path.call("valid_b.basm")))
-    @program_c = Bolverk::ASM::Parser.new(File.open(path.call("valid_c.basm")))
-    @program_d = Bolverk::ASM::Parser.new(File.open(path.call("invalid_a.basm")))
-    @program_e = Bolverk::ASM::Parser.new(File.open(path.call("invalid_b.basm")))
+
+    @tokens_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm"))).scan
+    @tokens_b = Bolverk::ASM::Lexer.new(File.open(path.call("valid_b.basm"))).scan
+    @tokens_c = Bolverk::ASM::Lexer.new(File.open(path.call("valid_c.basm"))).scan
+    @tokens_d = Bolverk::ASM::Lexer.new(File.open(path.call("invalid_b.basm"))).scan
+
+    @program_a = Bolverk::ASM::Parser.new(@tokens_a)
+    @program_b = Bolverk::ASM::Parser.new(@tokens_b)
+    @program_c = Bolverk::ASM::Parser.new(@tokens_c)
+    @program_d = Bolverk::ASM::Parser.new(@tokens_d)
   end
 
   def test_program_c_parses_correctly
@@ -60,15 +65,9 @@ class ParserTest < Test::Unit::TestCase
     assert(@program_b.parse, "Expected Program B to parse successfully")
   end
 
-  def test_program_c_causes_lexical_error
-    assert_raise Bolverk::ASM::LexicalError do
-      @program_d.parse
-    end
-  end
-
   def test_program_d_causes_syntax_error
     assert_raise Bolverk::ASM::SyntaxError do
-      @program_e.parse
+      @program_d.parse
     end
   end
 
