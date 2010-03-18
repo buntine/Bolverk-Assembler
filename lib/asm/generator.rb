@@ -35,6 +35,7 @@ class Bolverk::ASM::Generator
         assert_correct_args(procedure, terminals.butfirst)
 
         source << eval_procedure(procedure, terminals.butfirst)
+puts source
       end
     end
 
