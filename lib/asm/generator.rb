@@ -22,15 +22,20 @@ class Bolverk::ASM::Generator
   def generate
     tree = generate_syntax_tree
     source = []
-  
-    tree.butfirst.each do |statement|
-      procedure = statement.first
 
-      # Check some semantics.
-      assert_proc_exists(procedure)
-      assert_correct_args(procedure, statement.butfirst)
+    tree.butfirst.each do |production|
+      non_terminal = production.first
 
-      source << self.send("proc_#{procedure}", *statement.butfirst)
+      if non_terminal == :statement
+        terminals = production.butfirst
+        procedure = terminals.first
+
+        # Check some semantics.
+        assert_proc_exists(procedure)
+        assert_correct_args(procedure, terminals.butfirst)
+
+        source << eval_procedure(procedure, terminals.butfirst)
+      end
     end
 
     source.join("\n")
@@ -75,7 +80,7 @@ class Bolverk::ASM::Generator
 
   # We will keep all terminals except for the EOF pseudo-token.
   def is_useful_terminal?(symbol)
-    symbol.is_a?(Hash) and symbol[:type] != :eof
+    symbol.is_a?(Bolverk::ASM::Token) and !([ :eof, :comma ].include?(symbol.type))
   end
 
   def leaf?(tree)
