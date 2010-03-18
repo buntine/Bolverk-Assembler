@@ -12,12 +12,20 @@ class GeneratorTest < Test::Unit::TestCase
     @program_c = Bolverk::ASM::Parser.new(File.open(path.call("valid_c.basm")))
   end
 
-  def test_generator_c_should_generate_valid_machine_code
-    @tree_c = @program_c.parse
+  def test_program_a_should_generate_valid_machine_code
+    @tree_a = @program_a.parse
+    @generator_a = Bolverk::ASM::Generator.new(@tree_a)
 
+    assert_equal(@generator_a.generate, "111 111 111 111")
+  end
+
+  def test_program_c_should_cause_semantic_error
+    @tree_c = @program_c.parse
     @generator_c = Bolverk::ASM::Generator.new(@tree_c)
 
-    assert_equal(@generator_c.generate, "111 111 111 111")
+    assert_raise(Bolverk::ASM::SemanticError) do
+      @generator_c.generate
+    end
   end
 
 end

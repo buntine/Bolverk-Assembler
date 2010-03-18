@@ -10,8 +10,6 @@ module Bolverk::ASM::Procedures
   end
 
   def proc_load(register, value)
-    puts register
-    puts value
     "2" + h(register) + h(value)
   end
 
@@ -37,7 +35,7 @@ module Bolverk::ASM::Procedures
   # Accepts a valid program token and applies the corresponding
   # generating method to it.
   def eval_procedure(token, args)
-    arguments = args.map { |a| a.value }
+    arguments = args.map { |a| a.value.to_i }
 
     self.send("proc_#{proc_name(token)}", *arguments)
   end
