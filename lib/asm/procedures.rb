@@ -18,12 +18,12 @@ module Bolverk::ASM::Procedures
   end
 
   def proc_pmde(memory_cell)
-    "D1" + h(memory_cell)
+    "d1" + h(memory_cell)
   end
 
   # Semantic check to ensure given procedure exists.
   def assert_proc_exists(token)
-    name = proc_name(token)
+    name = p_name(token)
     unless self.respond_to?("proc_#{name}")
       raise Bolverk::ASM::SemanticError, "Unknown procedure: #{name}"
     end
@@ -32,7 +32,7 @@ module Bolverk::ASM::Procedures
   # Sementic check to ensure the given procedure
   # will accept the given arguments.
   def assert_correct_args(token, args)
-    name = proc_name(token)
+    name = p_name(token)
     arg_count = { "load" => 2, "stor" => 2, "badd" => 3, "pmde" => 1 }
 
     unless arg_count[name] == args.length
@@ -43,9 +43,13 @@ module Bolverk::ASM::Procedures
   # Accepts a valid program token and applies the corresponding
   # generating method to it.
   def eval_procedure(token, args)
-    arguments = args.map { |a| a.value.to_i }
+    # This will convert ASCII chars to their decimal equivelent, also.
+    arguments = args.map do |a|
+      v = a.value
+      (v =~ /^\d+$/) ? v.to_i : v[0]
+    end
 
-    self.send("proc_#{proc_name(token)}", *arguments)
+    self.send("proc_#{p_name(token)}", *arguments)
   end
 
  private
@@ -56,7 +60,7 @@ module Bolverk::ASM::Procedures
     number.to_s(16)
   end
 
-  def proc_name(token)
+  def p_name(token)
     token.value.downcase
   end
 end

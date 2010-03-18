@@ -16,7 +16,7 @@ class GeneratorTest < Test::Unit::TestCase
     @tree_a = @program_a.parse
     @generator_a = Bolverk::ASM::Generator.new(@tree_a)
 
-    assert_equal(@generator_a.generate, "2143\n227c\n5123\n3363\nD163")
+    assert_equal(@generator_a.generate, "2143\n227c\n5123\n3363\nd163")
   end
 
   # One of the calls to LOAD only supplies one argument.

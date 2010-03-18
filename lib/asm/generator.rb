@@ -35,7 +35,6 @@ class Bolverk::ASM::Generator
         assert_correct_args(procedure, terminals.butfirst)
 
         source << eval_procedure(procedure, terminals.butfirst)
-
       end
     end
 
@@ -79,7 +78,8 @@ class Bolverk::ASM::Generator
     [ :program, :statement ].include?(symbol)
   end
 
-  # We will keep all terminals except for the EOF pseudo-token.
+  # We will keep all terminals except for the EOF pseudo-token and
+  # commas, which are only useful for syntax verification.
   def is_useful_terminal?(symbol)
     symbol.is_a?(Bolverk::ASM::Token) and !([ :eof, :comma ].include?(symbol.type))
   end
