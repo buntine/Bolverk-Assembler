@@ -15,7 +15,7 @@ class Bolverk::ASM::Compiler
     lexer = Bolverk::ASM::Lexer.new(@stream)
     tokens = lexer.scan
 
-    parser = Bolverk::ASM::Scanner.new(tokens)
+    parser = Bolverk::ASM::Parser.new(tokens)
     parse_tree = parser.parse
 
     generator = Bolverk::ASM::Generator.new(parse_tree)
