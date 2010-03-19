@@ -33,10 +33,6 @@ module Bolverk::ASM::Procedures
     "7" + h(a) + h(b) + h(result)
   end
 
-  def proc_or(a, b, result)
-    "7" + h(a) + h(b) + h(result)
-  end
-
   def proc_and(a, b, result)
     "8" + h(a) + h(b) + h(result)
   end
@@ -91,8 +87,11 @@ module Bolverk::ASM::Procedures
   #       count for each procedure.
   def assert_correct_args(token, args)
     name = p_name(token)
-    arg_count = { "vall" => 2, "stor" => 2, "badd" => 3,
-                  "pmde" => 1, "meml" => 2 }
+    arg_count = { "meml" => 2, "vall" => 2, "stor" => 2, "move" => 2,
+                  "badd" => 3, "fadd" => 3, "or" => 3, "and" => 3,
+                  "xor" => 3, "rot" => 2, "jump" => 2, "pmch" => 1,
+                  "pmde" => 1, "pmfp" => 1, "pvch" => 1, "pvde" => 1,
+                  "pvfp" => 1 }
 
     unless arg_count[name] == args.length
       raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_count[name]} arguments. Given #{args.length}."
