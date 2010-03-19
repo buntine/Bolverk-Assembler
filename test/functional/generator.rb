@@ -31,7 +31,7 @@ class GeneratorTest < Test::Unit::TestCase
     assert_equal(@generator_d.generate, "2548\n2669\n22fe\n5123\n3363\nd163")
   end
 
-  # One of the calls to LOAD only supplies one argument.
+  # One of the calls to VALL only supplies one argument.
   def test_program_c_should_cause_semantic_error
     @tree_c = @program_c.parse
     @generator_c = Bolverk::ASM::Generator.new(@tree_c)

@@ -1,8 +1,8 @@
 -- This program is lexically and syntactically valid, but contains semantic errors.
 
-LOAD 5, 'H'
-LOAD 6, 'i' -- Characters should be translated to integers by the scanner.
-LOAD 2, 260 -- Number is too large.
+VALL 5, 'H'
+VALL 6, 'i' -- Characters should be translated to integers by the scanner.
+VALL 2, 260 -- Number is too large.
 BADD 1, 2   -- BADD requires three arguments.
 STOR 3, 99
 PMDE 99

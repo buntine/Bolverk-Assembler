@@ -37,7 +37,7 @@ class LexerTest < Test::Unit::TestCase
     assert(token_c.type == :comma, "Expected :comma at token 10")
     assert(token_d.type == :number, "Expected :number at token 15")
 
-    assert(token_a.value == "LOAD", "Expected value 'LOAD' at token 1")
+    assert(token_a.value == "VALL", "Expected value 'VALL' at token 1")
     assert(token_b.value == "1", "Expected value '1' at token 9")
     assert(token_c.value == ",", "Expected value ',' at token 10")
     assert(token_d.value == "3", "Expected value '3' at token 15")
@@ -96,7 +96,7 @@ class LexerTest < Test::Unit::TestCase
     assert(token_d.type == :comma, "Expected :comma at token 11")
     assert(token_e.type == :keyword, "Expected :keyword at token 17")
 
-    assert(token_a.value == "LOAD", "Expected value 'LOAD' at token 1")
+    assert(token_a.value == "VALL", "Expected value 'VALL' at token 1")
     assert(token_b.value == "H", "Expected value 'H' at token 4")
     assert(token_c.value == "2", "Expected value '2' at token 10")
     assert(token_d.value == ",", "Expected value ',' at token 11")

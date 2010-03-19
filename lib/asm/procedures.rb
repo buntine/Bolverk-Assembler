@@ -87,10 +87,12 @@ module Bolverk::ASM::Procedures
 
   # Sementic check to ensure the given procedure
   # will accept the given arguments.
+  # TODO: Work out better way to encode the argument
+  #       count for each procedure.
   def assert_correct_args(token, args)
     name = p_name(token)
-    arg_count = { "load" => 2, "stor" => 2, "badd" => 3,
-                  "pmde" => 1 }
+    arg_count = { "vall" => 2, "stor" => 2, "badd" => 3,
+                  "pmde" => 1, "meml" => 2 }
 
     unless arg_count[name] == args.length
       raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_count[name]} arguments. Given #{args.length}."
