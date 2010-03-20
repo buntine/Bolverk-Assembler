@@ -73,6 +73,11 @@ module Bolverk::ASM::Procedures
     "e2" + h(memory_cell)
   end
 
+  def proc_writ(value, memory_cell)
+    [ proc_vall("F", value),
+      proc_stor("F", memory_cell) ].join("\n")
+  end
+
   # Semantic check to ensure given procedure exists.
   def assert_proc_exists(token)
     name = p_name(token)
