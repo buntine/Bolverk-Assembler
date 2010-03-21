@@ -107,20 +107,12 @@ module Bolverk::ASM::Procedures
   # Accepts a valid program token and applies the corresponding
   # generating method to it.
   def eval_procedure(token, args=[])
-    # This will convert ASCII chars to their decimal equivelent, also.
+    # Convert signed integers and ASCII characters.
     arguments = args.map do |a|
-      v = a.value
-      if v =~ /^\-?\d+$/
-        signed = v.to_i
-        if (-128..0).include?(signed)
-          (128 + (128 - signed.abs))
-        elsif (1..127).include?(signed)
-          signed
-        else
-          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{signed} in 8 bits."
-        end
+      if a.value =~ /^\-?\d+$/
+        twos_complement(a.value.to_i)
       else
-        v[0]
+        a.value[0]
       end
     end
 
@@ -138,4 +130,18 @@ module Bolverk::ASM::Procedures
   def p_name(token)
     token.value.downcase
   end
+
+  # Converts a signed integer into a number ready for encoding in two's
+  # complement. Raises a SemanticError if the value falls outside of the
+  # acceptable range.
+  def twos_complement(signed_int)
+    if (-128..0).include?(signed_int)
+      (128 + (128 - signed_int.abs))
+    elsif (1..127).include?(signed_int)
+      signed_int
+    else
+      raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{signed_int} in 8 bits."
+    end
+  end
+
 end
