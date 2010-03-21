@@ -26,10 +26,18 @@
 2) Example
 
   -- Print the sum of two decimal numbers: (-10 + 120) with much excitement.
-  LOAD 1,   -10
-  LOAD 2,   120
-  DADD 1,   2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
-  STOR 3,   160
-  WRIT '!', 161
-  PMDE 160         -- Print Memory cell 160 (A0) as decimal.
-  PMCH 161         -- Print Memory cell 161 (A1) as an ASCII character.
+  LOAD 1, -10
+  LOAD 2, 120
+  LOAD 4, '!'
+  DADD 1, 2, 3   -- Add (as decimal) the contents of register 1 and 2. Store the result in register 3.
+  STOR 3, 160
+  STOR 4, 161
+  PMDE 160       -- Print Memory cell 160 (A0) as decimal.
+  PMCH 161       -- Print Memory cell 161 (A1) as an ASCII character.
+
+
+  -- Or, the same thing but more succinct:
+  LOAD 1, -10
+  LOAD 2, 120
+  PVDS 1, 2      -- Print to STDOUT, the sum of r1 and r2.
+  PVCH '!'

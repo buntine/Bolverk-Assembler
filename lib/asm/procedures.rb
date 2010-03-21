@@ -83,6 +83,12 @@ module Bolverk::ASM::Procedures
                   :method => lambda do |v, mc|
                                [ "2f" + h(v),
                                  "3f" + h(mc) ].join("\n")
+                             end },
+      "pvds" => { :args => 2,
+                  :method => lambda do |ra, rb|
+                               [ "5" + h(ra) + h(rb) + "f",
+                                 "3fff",
+                                 "d1ff" ].join("\n")
                              end } }
   end
 

@@ -9,7 +9,6 @@
 
 - Design/implement more compound procedures:
      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.
-     PVDS 1, 2     -- Sum the contents of r1 and r2, print the value to stdout. ('P'rint 'V'alue of 'D'ecimal 'S'um)
 
 - Variables (immutable):
      A = 56
