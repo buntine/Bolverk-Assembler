@@ -46,7 +46,10 @@ class Bolverk::ASM::Generator
   # Simplifies the parse tree into an abstract syntax tree
   # for evaluation.
   def generate_syntax_tree
-    build_ast(@parse_tree).first
+    ast = build_ast(@parse_tree).first
+
+    # Append a HALT instruction to the end of the program input.
+    ast.push([ :statement, Bolverk::ASM::Token.new(:keyword, "HALT") ])
   end
 
   # Actually builds the AST from the parse tree. This method

@@ -1,0 +1,8 @@
+- Due to a limitation in my grammar (all procedures must be followed by
+  1+ arguments), the HALT instruction, which has no arguments, causes a
+  syntactic error.
+  - Fix grammer and parser to allow for procedures without arguments.
+  - Modify compiler to only insert HALT if the hacker hasn't already done
+    so (it's currently pushed onto the syntax tree during code generation).
+
+- Write a LANGUAGE_SPEC document.

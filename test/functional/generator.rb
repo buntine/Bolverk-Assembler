@@ -21,14 +21,14 @@ class GeneratorTest < Test::Unit::TestCase
     @tree_a = @program_a.parse
     @generator_a = Bolverk::ASM::Generator.new(@tree_a)
 
-    assert_equal(@generator_a.generate, "2143\n227c\n5123\n3363\nd163")
+    assert_equal(@generator_a.generate, "2143\n227c\n5123\n3363\nd163\nc000")
   end
 
   def test_program_d_should_generate_valid_machine_code
     @tree_d = @program_d.parse
     @generator_d = Bolverk::ASM::Generator.new(@tree_d)
 
-    assert_equal(@generator_d.generate, "2548\n2669\n22fe\n5123\n3363\nd163")
+    assert_equal(@generator_d.generate, "2548\n2669\n22fe\n5123\n3363\nd163\nc000")
   end
 
   # One of the calls to VALL only supplies one argument.

@@ -106,7 +106,7 @@ module Bolverk::ASM::Procedures
 
   # Accepts a valid program token and applies the corresponding
   # generating method to it.
-  def eval_procedure(token, args)
+  def eval_procedure(token, args=[])
     # This will convert ASCII chars to their decimal equivelent, also.
     arguments = args.map do |a|
       v = a.value

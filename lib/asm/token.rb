@@ -6,7 +6,7 @@ class Bolverk::ASM::Token
   attr_reader :value
   attr_reader :line
 
-  def initialize(type, value, line)
+  def initialize(type, value, line=0)
     @type = type
     @value = value
     @line = line
