@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + "/parsetree"
 
 class Bolverk::ASM::Parser
 
-  # A table-driven LL(1) parser for Bolverk assembly. Consumes an input
-  # program and generates a parse tree from it's contents.
+  # A table-driven LL(1) parser for Bolverk assembly. Consumes the tokens
+  # of an input program and generates a parse tree from it's contents.
 
   attr_reader :parse_tree
 

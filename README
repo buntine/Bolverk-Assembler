@@ -30,15 +30,3 @@
   WRIT '!', 161
   PMDE 160         -- Print Memory cell 160 (A0) as decimal.
   PMCH 161         -- Print Memory cell 161 (A1) as an ASCII character.
-
-3) TODO
-
-  - Design/implement more compound procedures:
-      PVDE 66       -- Print decimal number 66 to stdout.
-      PVCH 'A'      -- Print ASCII character 'A' to stdout.
-      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.
-  - Variables (immutable):
-      A = 56
-      LOAD 2, A
-  - Floating-point numbers:
-      LOAD 4, 3.14
