@@ -110,7 +110,18 @@ module Bolverk::ASM::Procedures
     # This will convert ASCII chars to their decimal equivelent, also.
     arguments = args.map do |a|
       v = a.value
-      (v =~ /^\d+$/) ? v.to_i : v[0]
+      if v =~ /^\-?\d+$/
+        signed = v.to_i
+        if (-128..0).include?(signed)
+          (128 + (128 - signed.abs))
+        elsif (1..127).include?(signed)
+          signed
+        else
+          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{signed} in 8 bits."
+        end
+      else
+        v[0]
+      end
     end
 
     procedures[p_name(token)][:method].call(*arguments)

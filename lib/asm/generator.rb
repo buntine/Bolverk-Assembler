@@ -29,12 +29,13 @@ class Bolverk::ASM::Generator
       if non_terminal == :statement
         terminals = production.butfirst
         procedure = terminals.first
+        arguments = terminals.butfirst
 
         # Check some semantics.
         assert_proc_exists(procedure)
-        assert_correct_args(procedure, terminals.butfirst)
+        assert_correct_args(procedure, arguments)
 
-        source << eval_procedure(procedure, terminals.butfirst)
+        source << eval_procedure(procedure, arguments)
       end
     end
 

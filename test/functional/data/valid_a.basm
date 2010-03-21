@@ -1,6 +1,6 @@
 -- Basic program to test the lexer.
 VALL 1, 67
-VALL 2 , 124
+VALL 2 , -20
 BADD 1, 2, 3   -- Add (as Binary) the contents of register 1 and 2. Store the result in register 3.
 STOR 3, 99
 PMDE 99
