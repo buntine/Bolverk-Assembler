@@ -40,7 +40,33 @@
   VALL      | R, V       | Loads the value V into register R.
   STOR      | R, MC      | Stores the contents of regsister R into the memory cell MC.
   MOVE      | RA, RB     | Moves (copies) the contents of register RA into register RB.
-  BADD      | RA, RB, RC | Add, as binary, the contents of register RA and RB. Store the result
+  BADD      | RA, RB, RC | Add, as binary, the contents of registers RA and RB. Store the result
                            in register RC.
-  FADD      | RA, RB, RC | Add, as floating point numbers, the contents of register RA and RB.
+  FADD      | RA, RB, RC | Add, as floating point numbers, the contents of registers RA and RB.
                            Store the result in register RC.
+  OR        | RA, RB, RC | Logical OR the contents of registers RA and RB. Store the result in
+                           register RC.
+  AND       | RA, RB, RC | Logical AND the contents of registers RA and RB. Store the result in
+                           register RC.
+  XOR       | RA, RB, RC | Logical EXCLUSIVE OR the contents of registers RA ad RB. Store the
+                           result in register RC.
+  ROT       | R, N       | Rotate the contents of register R to the right in a circular motion,
+                           N times.
+  JUMP      | R, MC      | Jump to the instruction stored at the memory cell MC if the contents of register
+                           R is equal to the contents of register 0. Otherwise, continue onto the next
+                           instruction as per normal.
+  PMCH      | MC         | Print the contents of memory cell MC to STDOUT as though it was an
+                           ASCII character.
+  PMDE      | MC         | Print the contents of memory cell MC to STDOUT as though it was a
+                           decimal number
+  PMFP      | MC         | Print the contents of memory cell MC to STDOUT as though it was a
+                           floating point number.
+  PVCH      | V          | Print the value represented by V to STDOUT as though it was an
+                           ASCII character.
+  PVDE      | V          | Print the value represented by V to STDOUT as though it was a decimal
+                           number
+  PVFP      | V          | Print the value represented by V to STDOUT as though it was a
+                           floating point number.
+  WRIT      | V, MC      | Stores the value represented by V in the memory cell MC (VALL + STOR).
+  PVDS      | RA, RB     | Add, as binary, the contents of registers RA and RB. Print the result
+                           to STDOUT.
