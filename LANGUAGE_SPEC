@@ -27,7 +27,20 @@
     - LOAD 2, 'O'  -- Valid
     - LOAD 3, 'YO' -- Syntax error
 
+  - Procedures are case-insensitive. The compiler doesn't care.
+
+  - Arguments to procedures must be comma-delimited.
+
 
 2) Primitive procedures
 
-  Coming...
+  PROCEDURE | ARGUMENTS  | DESCRIPTION
+  --------------------------------------------------------------------------------------------
+  MEML      | R, MC      | Loads the contents of memory cell MC into register R.
+  VALL      | R, V       | Loads the value V into register R.
+  STOR      | R, MC      | Stores the contents of regsister R into the memory cell MC.
+  MOVE      | RA, RB     | Moves (copies) the contents of register RA into register RB.
+  BADD      | RA, RB, RC | Add, as binary, the contents of register RA and RB. Store the result
+                           in register RC.
+  FADD      | RA, RB, RC | Add, as floating point numbers, the contents of register RA and RB.
+                           Store the result in register RC.
