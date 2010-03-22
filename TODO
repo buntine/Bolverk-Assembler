@@ -5,8 +5,6 @@
   - Modify compiler to only insert HALT if the hacker hasn't already done
     so (it's currently pushed onto the syntax tree during code generation).
 
-- Write a LANGUAGE_SPEC document.
-
 - Design/implement more primitive procedures:
      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.
 
