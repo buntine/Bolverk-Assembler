@@ -7,7 +7,7 @@
 
 - Write a LANGUAGE_SPEC document.
 
-- Design/implement more compound procedures:
+- Design/implement more primitive procedures:
      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.
 
 - Variables (immutable):

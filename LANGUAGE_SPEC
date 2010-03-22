@@ -1,0 +1,33 @@
+=========================================
+===      Bolverk Assembler v0.0.2     ===
+===         By Andrew Buntine         ===
+=========================================
+
+1) General notes
+
+  - Traditionally, Assembly languages define a semi-direct mapping of names to native instructions, without
+    more obvious abstractions. Bolverk Assembler follows along these lines.
+
+  - All storable numbers, memory cells and registers are represented as demical integers. For example:
+    - Register 1: 1
+    - Register A: 10
+    - Cell A0:    160
+    - -20:        -20
+    - 230:        ERROR! (cannot store)
+
+  - Integers are 8-bit signed. This means we can only store -128 to 127 successfully. Anything outside of
+    this range will cause a SemanticError exception during compilation.
+
+  - Comments are denoted by two hyphens and terminated by the newline character. They can appear on their own
+    lines or be appended to the end of another line.
+
+  - ASCII-encoded characters can be referenced by enclosing them in single quotes. Only one character may appear
+    at a time. Otherwise, a SyntaxError exception is caused.
+    - LOAD 1, 'Y'  -- Valid
+    - LOAD 2, 'O'  -- Valid
+    - LOAD 3, 'YO' -- Syntax error
+
+
+2) Primitive procedures
+
+  Coming...
