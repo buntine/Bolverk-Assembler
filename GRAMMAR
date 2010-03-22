@@ -26,7 +26,7 @@ FORMAL GRAMMAR
 program           --> statement_list $
 statement_list    --> statement statement_list | EPS
 statement         --> "keyword" number_list
-number_list       --> "number" number_list_tail
+number_list       --> "number" number_list_tail | EPS
 number_list_tail  --> "," "number" number_list_tail | EPS
 
 
