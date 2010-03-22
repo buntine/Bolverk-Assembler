@@ -23,6 +23,8 @@
   The machine accepts 8-bit signed integers. Therefore the range is -128..127, which
   should be enough for purely educational purposes.
 
+  See ./LANGUAGE_SPEC for more info and a list of primitive procedures.
+
 2) Example
 
   -- Print the sum of two decimal numbers: (-10 + 120) with much excitement.
