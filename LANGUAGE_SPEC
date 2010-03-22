@@ -25,9 +25,11 @@
     at a time. Otherwise, a SyntaxError exception is caused.
     - LOAD 1, 'Y'  -- Valid
     - LOAD 2, 'O'  -- Valid
-    - LOAD 3, 'YO' -- Syntax error
+    - LOAD 3, 'YO' -- Lexical error
 
   - Procedures are case-insensitive. The compiler doesn't care.
+
+  - The compiler also doesn't care about whitespace or newlines in-between tokens. They are ignored.
 
   - Arguments to procedures must be comma-delimited.
 

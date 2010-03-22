@@ -1,6 +1,7 @@
 -- In this program we are testing ASCII characters.
 -- I also have a HALT in the middle for the sake of testing procedures
 -- that have no arguments.
+
 VALL 5, 'H'   -- Hex: 48
 VALL 6, 'i'   -- Hex: 69
 VALL 2, -2
