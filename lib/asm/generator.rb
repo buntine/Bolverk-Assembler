@@ -31,11 +31,13 @@ class Bolverk::ASM::Generator
         procedure = terminals.first
         arguments = terminals.butfirst
 
-        # Check some semantics.
-        assert_proc_exists(procedure)
-        assert_correct_args(procedure, arguments)
-
-        source << eval_procedure(procedure, arguments)
+        # If we encounter an unknown procedure, we have to consider
+        # it a fatal error.
+        if mnemonic_exists?(procedure)
+          source << eval_procedure(procedure, arguments)
+        else
+          raise Bolverk::ASM::SemanticError, "Unknown procedure: #{procedure.name}"
+        end
       end
     end
 
