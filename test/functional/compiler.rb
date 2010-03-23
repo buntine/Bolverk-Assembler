@@ -78,4 +78,156 @@ class CompilerTest < Test::Unit::TestCase
     assert_equal(source, "1a64\nc000")
   end
 
+  def test_vall_generates_correct_source
+    program = StringIO.new("VALL 10, 100")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "2a64\nc000")
+  end
+
+  def test_stor_generates_correct_source
+    program = StringIO.new("STOR 10, 104")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "3a68\nc000")
+  end
+
+  def test_move_generates_correct_source
+    program = StringIO.new("MOVE 10, 11")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "40ab\nc000")
+  end
+
+  def test_badd_generates_correct_source
+    program = StringIO.new("BADD 10, 11, 12")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "5abc\nc000")
+  end
+
+  def test_fadd_generates_correct_source
+    program = StringIO.new("FADD 10, 11, 12")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "6abc\nc000")
+  end
+
+  def test_or_generates_correct_source
+    program = StringIO.new("OR 11, 12, 13")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "7bcd\nc000")
+  end
+
+  def test_and_generates_correct_source
+    program = StringIO.new("AND 1, 2, 3")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "8123\nc000")
+  end
+
+  def test_xor_generates_correct_source
+    program = StringIO.new("XOR 11, 12, 13")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "9bcd\nc000")
+  end
+
+  def test_rot_generates_correct_source
+    program = StringIO.new("ROT 1, 3")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "a103\nc000")
+  end
+
+  def test_jump_generates_correct_source
+    program = StringIO.new("JUMP 15, 16")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "bf10\nc000")
+  end
+
+  def test_halt_generates_correct_source
+    program = StringIO.new("HALT")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "c000")
+  end
+
+  def test_pmch_generates_correct_source
+    program = StringIO.new("PMCH 250")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "d0fa\nc000")
+  end
+
+  def test_pmde_generates_correct_source
+    program = StringIO.new("PMDE 250")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "d1fa\nc000")
+  end
+
+  def test_pmfp_generates_correct_source
+    program = StringIO.new("PMFP 250")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "d2fa\nc000")
+  end
+
+  def test_pvch_generates_correct_source
+    program = StringIO.new("PVCH 251")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "e0fb\nc000")
+  end
+
+  def test_pvde_generates_correct_source
+    program = StringIO.new("PVDE 252")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "e1fc\nc000")
+  end
+
+  def test_pvfp_generates_correct_source
+    program = StringIO.new("PVFP 251")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "e2fb\nc000")
+  end
+
+  def test_writ_generates_correct_source
+    program = StringIO.new("WRIT '%', 251")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "2f25\n3ffb\nc000")
+  end
+
+  def test_pvds_generates_correct_source
+    program = StringIO.new("PVDS 5, 6")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "556f\n3fff\nd1ff\nc000")
+  end
+
 end

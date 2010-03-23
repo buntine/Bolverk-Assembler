@@ -45,7 +45,7 @@ module Bolverk::ASM::Procedures
                              end },
       "rot"  => { :args => 2,
                   :method => lambda do |r, n|
-                               "a" + h(r) + h(n)
+                               "a" + h(r) + "0" + h(n)
                              end },
       "jump" => { :args => 2,
                   :method => lambda do |r, mc|
