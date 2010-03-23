@@ -1,6 +1,5 @@
 - Add more tests
   - Test each primitive generates the correct target source.
-  - Test compiler only adds HALT if necessary.
 
 - Design/implement more primitive procedures:
      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.

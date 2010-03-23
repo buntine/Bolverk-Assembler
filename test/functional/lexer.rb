@@ -11,6 +11,7 @@ class LexerTest < Test::Unit::TestCase
     @program_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm")))
     @program_b = Bolverk::ASM::Lexer.new(File.open(path.call("valid_b.basm")))
     @program_c = Bolverk::ASM::Lexer.new(File.open(path.call("invalid_a.basm")))
+    @program_d = Bolverk::ASM::Lexer.new(File.open(path.call("valid_d.basm")))
   end
 
   def test_program_a_has_correct_number_of_tokens
@@ -146,6 +147,67 @@ class LexerTest < Test::Unit::TestCase
     assert_raise Bolverk::ASM::LexicalError do
       @program_c.scan
     end
+  end
+
+  def test_program_d_has_correct_number_of_tokens
+    @program_d.scan
+    assert(@program_d.tokens.length == 26, "Expected 26 tokens")
+  end
+
+  def test_program_d_saves_tokens_after_scanning
+    @program_d.scan
+    assert(@program_d.tokens.is_a?(Array), "Expected token data to be available")
+  end
+
+  # We just need to look for a few, not all of them.
+  def test_program_a_has_correct_tokens
+    @program_d.scan
+
+    token_a = @program_d.tokens[0]
+    token_b = @program_d.tokens[9]
+    token_c = @program_d.tokens[10]
+    token_d = @program_d.tokens[7]
+
+    assert(token_a.type == :keyword, "Expected :keyword at token 1")
+    assert(token_b.type == :number, "Expected :number at token 10")
+    assert(token_c.type == :comma, "Expected :comma at token 11")
+    assert(token_d.type == :number, "Expected :number at token 8")
+
+    assert(token_a.value == "VALL", "Expected value 'VALL' at token 1")
+    assert(token_b.value == "2", "Expected value '2' at token 10")
+    assert(token_c.value == ",", "Expected value ',' at token 11")
+    assert(token_d.value == "i", "Expected value 'i' at token 9")
+  end
+
+  def test_program_d_reports_tokens_on_the_correct_line
+    @program_d.scan
+
+    assert(@program_d.tokens[1].line == 5, "Expected token[1] to be on line 5")
+    assert(@program_d.tokens[6].line == 6, "Expected token[6] to be on line 6")
+    assert(@program_d.tokens[12].line == 8, "Expected token[12] to be on line 8")
+    assert(@program_d.tokens[13].line == 9, "Expected token[13] to be on line 9")
+    assert(@program_d.tokens[15].line == 9, "Expected token[15] to be on line 9")
+  end
+
+  def test_program_d_ends_with_trailing_pseudotoken
+    @program_d.scan
+    eof_token = @program_d.tokens.last
+
+    assert(eof_token.type == :eof)
+  end
+
+  def test_program_d_has_only_one_eof_token
+    @program_d.scan
+    eofs = @program_d.tokens.find_all { |t| t.type == :eof }
+
+    assert_equal(eofs.length, 1)
+  end
+
+  def test_lexer_did_not_give_program_d_one_halt_mnemonic
+    @program_d.scan
+
+    # This program already has a HALT, so it should not have been added by the compiler.
+    assert(@program_d.tokens[-2].value.downcase != "halt", "Expected compiler to NOT add HALT")
   end
 
 end
