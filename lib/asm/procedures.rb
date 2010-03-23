@@ -129,6 +129,7 @@ module Bolverk::ASM::Procedures
       range = ranges[arg_type]
       value = args[i].value
 
+      # If it's a character, just convert it to an integer and let it through.
       if value =~ /^\D$/ and arg_type == :value
         arguments << value[0]
       else

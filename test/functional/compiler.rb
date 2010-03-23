@@ -79,11 +79,11 @@ class CompilerTest < Test::Unit::TestCase
   end
 
   def test_vall_generates_correct_source
-    program = StringIO.new("VALL 10, 100")
+    program = StringIO.new("VALL 10, -100")
     compiler = Bolverk::ASM::Compiler.new(program)
     source = compiler.compile
 
-    assert_equal(source, "2a64\nc000")
+    assert_equal(source, "2a9c\nc000")
   end
 
   def test_stor_generates_correct_source
@@ -228,6 +228,36 @@ class CompilerTest < Test::Unit::TestCase
     source = compiler.compile
 
     assert_equal(source, "556f\n3fff\nd1ff\nc000")
+  end
+
+
+  # And now lets test a few semantic errors.
+
+  def test_invalid_memory_cell_should_cause_semantic_error
+    program = StringIO.new("WRIT '$', 300")
+    compiler = Bolverk::ASM::Compiler.new(program)
+
+    assert_raise Bolverk::ASM::SemanticError do
+      compiler.compile
+    end
+  end
+
+  def test_invalid_register_should_cause_semantic_error
+    program = StringIO.new("PVDS 15, 19")
+    compiler = Bolverk::ASM::Compiler.new(program)
+
+    assert_raise Bolverk::ASM::SemanticError do
+      compiler.compile
+    end
+  end
+
+  def test_invalid_number_should_cause_semantic_error
+    program = StringIO.new("VALL 4, -130")
+    compiler = Bolverk::ASM::Compiler.new(program)
+
+    assert_raise Bolverk::ASM::SemanticError do
+      compiler.compile
+    end
   end
 
 end
