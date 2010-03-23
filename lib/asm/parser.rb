@@ -13,7 +13,7 @@ class Bolverk::ASM::Parser
     :program =>          { :keyword => 1,   :number => nil, :comma => nil, :eof => 1 },
     :statement_list =>   { :keyword => 2,   :number => nil, :comma => nil, :eof => 3 },
     :statement =>        { :keyword => 4,   :number => nil, :comma => nil, :eof => nil },
-    :number_list =>      { :keyword => 8, :number => 5,   :comma => nil, :eof => 8 },
+    :number_list =>      { :keyword => 8,   :number => 5,   :comma => nil, :eof => 8 },
     :number_list_tail => { :keyword => 7,   :number => nil, :comma => 6,   :eof => 7 }
   }
 
