@@ -1,11 +1,15 @@
+require File.dirname(__FILE__) + "/stream"
 require File.dirname(__FILE__) + "/lexer"
 require File.dirname(__FILE__) + "/parser"
 require File.dirname(__FILE__) + "/generator"
 
 class Bolverk::ASM::Compiler
 
+  # The compiler accepts a raw string or a file-like
+  # object.
   def initialize(stream)
-    @stream = stream
+    contents = stream.respond_to?(:read) ? stream.read : stream
+    @stream = Bolverk::ASM::Stream.new(contents)
   end
 
   # Scans, parses and generates source from the contents

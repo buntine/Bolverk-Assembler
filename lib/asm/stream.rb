@@ -1,6 +1,8 @@
-class File
+require 'stringio'
 
-  # This is a naive, non-portable mixin to allow File objects to
+class Bolverk::ASM::Stream < StringIO
+
+  # This is a naive, non-portable abstraction to allow File objects to
   # keep track of the current line number in the buffer. The built-in
   # functionality only counts the calls to "gets" (equally as stupid).
   # This solution is specific to this application and lacks some

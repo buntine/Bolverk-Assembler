@@ -9,10 +9,10 @@ class ParserTest < Test::Unit::TestCase
   def setup
     path = lambda { |file| File.join(File.dirname(__FILE__), "data", file) }
 
-    @tokens_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm"))).scan
-    @tokens_b = Bolverk::ASM::Lexer.new(File.open(path.call("valid_b.basm"))).scan
-    @tokens_c = Bolverk::ASM::Lexer.new(File.open(path.call("valid_c.basm"))).scan
-    @tokens_d = Bolverk::ASM::Lexer.new(File.open(path.call("invalid_b.basm"))).scan
+    @tokens_a = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_a.basm")))).scan
+    @tokens_b = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_b.basm")))).scan
+    @tokens_c = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_c.basm")))).scan
+    @tokens_d = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("invalid_b.basm")))).scan
 
     @program_a = Bolverk::ASM::Parser.new(@tokens_a)
     @program_b = Bolverk::ASM::Parser.new(@tokens_b)

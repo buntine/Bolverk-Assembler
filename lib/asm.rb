@@ -9,5 +9,4 @@ class Bolverk::ASM::SemanticError < Exception; end
 
 # Begin the loading sequence.
 require File.dirname(__FILE__) + "/monkeypatches/array"
-require File.dirname(__FILE__) + "/monkeypatches/file"
 require File.dirname(__FILE__) + "/asm/compiler"

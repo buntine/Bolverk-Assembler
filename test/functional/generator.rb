@@ -8,9 +8,9 @@ class GeneratorTest < Test::Unit::TestCase
   def setup
     path = lambda { |file| File.join(File.dirname(__FILE__), "data", file) }
 
-    @tokens_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm"))).scan
-    @tokens_c = Bolverk::ASM::Lexer.new(File.open(path.call("valid_c.basm"))).scan
-    @tokens_d = Bolverk::ASM::Lexer.new(File.open(path.call("valid_d.basm"))).scan
+    @tokens_a = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_a.basm")))).scan
+    @tokens_c = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_c.basm")))).scan
+    @tokens_d = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_d.basm")))).scan
 
     @program_a = Bolverk::ASM::Parser.new(@tokens_a)
     @program_c = Bolverk::ASM::Parser.new(@tokens_c)

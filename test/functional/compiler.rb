@@ -1,3 +1,4 @@
+require 'stringio'
 require 'test/unit'
 require File.join(File.dirname(__FILE__), "../..", "lib", "asm")
 
@@ -64,6 +65,17 @@ class CompilerTest < Test::Unit::TestCase
     assert_raise Bolverk::ASM::SyntaxError do
       @program_f.compile
     end
+  end
+
+
+  # And now lets test every primitive/mnemonic.
+
+  def test_meml_generates_correct_source
+    program = StringIO.new("MEML 10, 100")
+    compiler = Bolverk::ASM::Compiler.new(program)
+    source = compiler.compile
+
+    assert_equal(source, "1a64\nc000")
   end
 
 end

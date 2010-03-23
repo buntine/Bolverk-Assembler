@@ -8,10 +8,10 @@ class LexerTest < Test::Unit::TestCase
 
   def setup
     path = lambda { |file| File.join(File.dirname(__FILE__), "data", file) }
-    @program_a = Bolverk::ASM::Lexer.new(File.open(path.call("valid_a.basm")))
-    @program_b = Bolverk::ASM::Lexer.new(File.open(path.call("valid_b.basm")))
-    @program_c = Bolverk::ASM::Lexer.new(File.open(path.call("invalid_a.basm")))
-    @program_d = Bolverk::ASM::Lexer.new(File.open(path.call("valid_d.basm")))
+    @program_a = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_a.basm"))))
+    @program_b = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_b.basm"))))
+    @program_c = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("invalid_a.basm"))))
+    @program_d = Bolverk::ASM::Lexer.new(Bolverk::ASM::Stream.new(File.read(path.call("valid_d.basm"))))
   end
 
   def test_program_a_has_correct_number_of_tokens
