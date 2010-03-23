@@ -24,4 +24,8 @@ class Bolverk::ASM::Token
     @type == :eof
   end
 
+  def is_halt?
+    @type == :keyword and @value.downcase == "halt"
+  end
+
 end

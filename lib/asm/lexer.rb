@@ -48,6 +48,10 @@ class Bolverk::ASM::Lexer
     @tokens << next_token
 
     if @tokens.last.is_eof?
+      unless has_halt?
+        @tokens.insert(-2, Bolverk::ASM::Token.new(:keyword, "HALT"))
+      end
+
       @tokens
     else
       scan
@@ -139,4 +143,8 @@ class Bolverk::ASM::Lexer
     [:whitespace, :comment].include?(get_token_name)
   end
 
+  # Returns true if the token array contains a HALT mnemonic.
+  def has_halt?
+    @tokens.any? { |t| t.is_halt? }
+  end
 end

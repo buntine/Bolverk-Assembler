@@ -28,7 +28,7 @@ class GeneratorTest < Test::Unit::TestCase
     @tree_d = @program_d.parse
     @generator_d = Bolverk::ASM::Generator.new(@tree_d)
 
-    assert_equal(@generator_d.generate, "2548\n2669\n22fe\nc000\n5123\n3363\nd163\nc000")
+    assert_equal(@generator_d.generate, "2548\n2669\n22fe\nc000\n5123\n3363\nd163")
   end
 
   # One of the calls to VALL only supplies one argument.

@@ -1,6 +1,3 @@
-- Modify compiler to only insert HALT if the hacker hasn't already done
-  so (it's currently pushed onto the syntax tree during code generation).
-
 - Add more tests
   - Test each primitive generates the correct target source.
   - Test compiler only adds HALT if necessary.

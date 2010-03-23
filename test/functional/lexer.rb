@@ -15,7 +15,7 @@ class LexerTest < Test::Unit::TestCase
 
   def test_program_a_has_correct_number_of_tokens
     @program_a.scan
-    assert(@program_a.tokens.length == 21, "Expected 21 tokens")
+    assert(@program_a.tokens.length == 22, "Expected 22 tokens")
   end
 
   def test_program_a_saves_tokens_after_scanning
@@ -67,9 +67,16 @@ class LexerTest < Test::Unit::TestCase
     assert_equal(eofs.length, 1)
   end
 
+  def test_lexer_gave_program_a_one_halt_mnemonic
+    @program_a.scan
+
+    # Should have been placed before the final :eof token.
+    assert(@program_a.tokens[-2].value.downcase == "halt", "Expected compiler to add HALT")
+  end
+
   def test_program_b_has_correct_number_of_tokens
     @program_b.scan
-    assert(@program_b.tokens.length == 23, "Expected 23 tokens")
+    assert(@program_b.tokens.length == 24, "Expected 24 tokens")
   end
 
   def test_program_b_saves_tokens_after_scanning
@@ -126,6 +133,13 @@ class LexerTest < Test::Unit::TestCase
     eofs = @program_b.tokens.find_all { |t| t.type == :eof }
 
     assert_equal(eofs.length, 1)
+  end
+
+  def test_lexer_gave_program_b_one_halt_mnemonic
+    @program_b.scan
+
+    # Should have been placed before the final :eof token.
+    assert(@program_b.tokens[-2].value.downcase == "halt", "Expected compiler to add HALT")
   end
 
   def test_program_c_dies_with_lexical_error
