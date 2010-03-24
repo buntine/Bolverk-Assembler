@@ -67,17 +67,17 @@ module Bolverk::ASM::Procedures
                   :method => lambda do |mc|
                                "d2" + h(mc)
                              end },
-      "pvch" => { :args => [:memory_cell],
-                  :method => lambda do |mc|
-                               "e0" + h(mc)
+      "pvch" => { :args => [:value],
+                  :method => lambda do |v|
+                               "e0" + h(v)
                              end },
-      "pvde" => { :args => [:memory_cell],
-                  :method => lambda do |mc|
-                               "e1" + h(mc)
+      "pvde" => { :args => [:value],
+                  :method => lambda do |v|
+                               "e1" + h(v)
                              end },
-      "pvfp" => { :args => [:memory_cell],
-                  :method => lambda do |mc|
-                               "e2" + h(mc)
+      "pvfp" => { :args => [:value],
+                  :method => lambda do |v|
+                               "e2" + h(v)
                              end },
       "writ" => { :args => [:value, :memory_cell],
                   :method => lambda do |v, mc|

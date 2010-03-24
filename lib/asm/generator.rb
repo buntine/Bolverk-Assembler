@@ -36,7 +36,7 @@ class Bolverk::ASM::Generator
         if mnemonic_exists?(procedure)
           source << eval_procedure(procedure, arguments)
         else
-          raise Bolverk::ASM::SemanticError, "Unknown procedure: #{procedure.name}"
+          raise Bolverk::ASM::SemanticError, "Unknown procedure: #{procedure.value}"
         end
       end
     end
