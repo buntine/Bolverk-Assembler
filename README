@@ -44,3 +44,12 @@
   LOAD 2, 120
   PVDS 1, 2      -- Print to STDOUT, the sum of r1 and r2.
   PVCH '!'
+
+3) Usage
+
+  The compiler accepts a string or File-like object containing a (hopefully) valid program.
+
+  assembler = Bolverk::ASM::Compiler.new(File.open("./sample.basm"))
+  source = assembler.compile
+
+  puts source
