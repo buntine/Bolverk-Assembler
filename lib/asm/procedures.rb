@@ -120,7 +120,7 @@ module Bolverk::ASM::Procedures
                :register    => (0..15) }
 
     unless arg_types.length == args.length
-      raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_types.length} arguments. Given #{args.length}."
+      raise Bolverk::ASM::SemanticError, "Procedure #{name} requires #{arg_types.length} arguments. Given #{args.length}. Line #{token.line}."
     end
 
     # Format each argument into a valid number. Also make sure
@@ -137,7 +137,7 @@ module Bolverk::ASM::Procedures
         if range.include?(v)
           arguments << ((arg_type == :value) ? twos_complement(v) : v)
         else
-          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{v} in one byte."
+          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{v} in one byte. Line #{token.line}."
         end
       end
     end

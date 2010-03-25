@@ -191,27 +191,27 @@ class CompilerTest < Test::Unit::TestCase
   end
 
   def test_pvch_generates_correct_source
-    program = StringIO.new("PVCH 251")
+    program = StringIO.new("PVCH 'Y'")
     compiler = Bolverk::ASM::Compiler.new(program)
     source = compiler.compile
 
-    assert_equal(source, "e0fb\nc000")
+    assert_equal(source, "e059\nc000")
   end
 
   def test_pvde_generates_correct_source
-    program = StringIO.new("PVDE 252")
+    program = StringIO.new("PVDE 120")
     compiler = Bolverk::ASM::Compiler.new(program)
     source = compiler.compile
 
-    assert_equal(source, "e1fc\nc000")
+    assert_equal(source, "e178\nc000")
   end
 
   def test_pvfp_generates_correct_source
-    program = StringIO.new("PVFP 251")
+    program = StringIO.new("PVFP 10")
     compiler = Bolverk::ASM::Compiler.new(program)
     source = compiler.compile
 
-    assert_equal(source, "e2fb\nc000")
+    assert_equal(source, "e2a\nc000")
   end
 
   def test_writ_generates_correct_source
