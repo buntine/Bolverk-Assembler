@@ -23,7 +23,8 @@
   The machine accepts 8-bit signed integers. Therefore the range is -128..127, which
   should be enough for purely educational purposes.
 
-  See ./LANGUAGE_SPEC for more info and a list of primitive procedures.
+  See ./LANGUAGE_SPEC for more info and a list of primitive procedures (or "mnemonics").
+
 
 2) Example
 
@@ -45,6 +46,7 @@
   PVDS 1, 2      -- Print to STDOUT, the sum of r1 and r2.
   PVCH '!'
 
+
 3) Usage
 
   The compiler accepts a string or File-like object containing a (hopefully) valid program.
@@ -53,3 +55,10 @@
   source = assembler.compile
 
   puts source
+
+
+4) Test suite
+
+  I've provided a bunch of functional tests. You can run them by executing:
+
+  $ ./test/functional.rb
