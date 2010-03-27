@@ -10,25 +10,25 @@ class Bolverk::ASM::Parser
   # Parse table used to predict the next production, given an input token and expected
   # symbol. When encountered, a nil value will signal a Syntax Error.
   @@parse_table = {
-    :program =>          { :keyword => 1, :char => nil,  :number => nil, :comma => nil, :eof => 1 },
-    :statement_list =>   { :keyword => 2, :char => nil,  :number => nil, :comma => nil, :eof => 3 },
-    :statement =>        { :keyword => 4, :char => nil,  :number => nil, :comma => nil, :eof => nil },
-    :argument_list => { :keyword => 6, :char => 5, :number => 5, :comma => nil, :eof => 6 },
-    :argument_list_tail => { :keyword => 8, :char => nil, :number => nil, :comma => 7, :eof => 8 },
-    :argument => { :keyword => nil, :char => 9, :number => 10, :comma => nil, :eof => nil }
+    :program =>            { :keyword => 1,   :char => nil,  :number => nil, :comma => nil, :eof => 1 },
+    :statement_list =>     { :keyword => 2,   :char => nil,  :number => nil, :comma => nil, :eof => 3 },
+    :statement =>          { :keyword => 4,   :char => nil,  :number => nil, :comma => nil, :eof => nil },
+    :argument_list =>      { :keyword => 6,   :char => 5,    :number => 5,   :comma => nil, :eof => 6 },
+    :argument_list_tail => { :keyword => 8,   :char => nil,  :number => nil, :comma => 7,   :eof => 8 },
+    :argument =>           { :keyword => nil, :char => 9,    :number => 10,  :comma => nil, :eof => nil }
   }
 
   @@production_table = [
-    [:statement_list, :eof],              # program
-    [:statement, :statement_list],        # statement_list
-    [],                                   # statement_list (epsilon)
-    [:keyword, :argument_list],           # statement
-    [:argument, :argument_list_tail],     # argument_list
-    [],                                   # argument_list (epsilon)
-    [:comma, :argument], # argument_list_tail
-    [],                                       # argument_list_tail (epsilon)
-    [:char, :argument_list_tail],                                  # argument
-    [:number, :argument_list_tail]                                 # argument
+    [:statement_list, :eof],          # program
+    [:statement, :statement_list],    # statement_list
+    [],                               # statement_list (epsilon)
+    [:keyword, :argument_list],       # statement
+    [:argument, :argument_list_tail], # argument_list
+    [],                               # argument_list (epsilon)
+    [:comma, :argument],              # argument_list_tail
+    [],                               # argument_list_tail (epsilon)
+    [:char, :argument_list_tail],     # argument (with char)
+    [:number, :argument_list_tail]    # argument (with number)
   ]
 
   def initialize(tokens)

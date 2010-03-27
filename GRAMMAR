@@ -31,6 +31,7 @@ argument_list_tail  --> "comma" argument argument_list_tail | EPS
 argument            --> "number" | "char"
 
 
+
 PREDICT SET
 
 1. program            --> statement_list $ { keyword, $ }
@@ -39,7 +40,7 @@ PREDICT SET
 4. statement          --> "keyword" number_list { keyword }
 5. argument_list      --> argument argument_list_tail { number, char }
 6. argument_list      --> EPS { keyword, $ }
-7. argument_list_tail --> "comma" argument argument_list_tail { comma }
+7. argument_list_tail --> "comma" argument { comma }
 8. argument_list_tail --> EPS { keyword, $ }
-9. argument           --> "number" { number }
-10. argument          --> "char" { char }
+9. argument           --> "number" argument_list_tail { number }
+10. argument          --> "char" argument_list_tail { char }
