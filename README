@@ -17,8 +17,8 @@
   To make things easier for us humans (and lexical analysis), all numbers (memory
   cells, registers, etc) must be denoted in decimal.
 
-  Any storable decimal number can be replaced with it's ASCII equivelant. Characters
-  must be wrapped in single quotes.
+  Wherever semantically correct, any storable decimal number can be replaced with it's
+  ASCII equivelant. Characters must be wrapped in single quotes.
 
   The machine accepts 8-bit signed integers. Therefore the range is -128..127, which
   should be enough for purely educational purposes.

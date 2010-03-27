@@ -107,7 +107,7 @@ module Bolverk::ASM::Procedures
 
  private
 
-  # Converts arguments into valid numbers.
+  # Converts arguments into valid, storable numbers.
   # Also asserts each argument falls within it's valid
   # range. Otherwise, a SemanticError is raised.
   def validate_and_format_args(token, args)
@@ -130,14 +130,14 @@ module Bolverk::ASM::Procedures
       value = args[i].value
 
       # If it's a character, just convert it to an integer and let it through.
-      if value =~ /^\D$/ and arg_type == :value
+      if args[i].type == :char and arg_type == :value
         arguments << value[0]
       else
         v = value.to_i
         if range.include?(v)
           arguments << ((arg_type == :value) ? twos_complement(v) : v)
         else
-          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{v} in one byte. Line #{token.line}."
+          raise Bolverk::ASM::SemanticError, "Cannot store signed integer #{v} in range #{range}. Line #{token.line}."
         end
       end
     end

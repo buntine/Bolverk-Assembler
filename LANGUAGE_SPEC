@@ -22,7 +22,8 @@
     lines or be appended to the end of another line.
 
   - ASCII-encoded characters can be referenced by enclosing them in single quotes. Only one character may appear
-    at a time. Otherwise, a LexicalError exception is caused.
+    at a time. Otherwise, a LexicalError exception is caused. Characters should only be used where applicable to
+    prevent causing a semantic error (not to reference a register, for example).
     - LOAD 1, 'Y'  -- Valid
     - LOAD 2, 'O'  -- Valid
     - LOAD 3, 'YO' -- Lexical error
