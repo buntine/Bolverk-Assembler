@@ -49,7 +49,7 @@
 
 3) Usage
 
-  The compiler accepts a string or File-like object containing a (hopefully) valid program.
+  The compiler accepts a string or File-like object (File, StringIO) containing a (hopefully) valid program.
 
   assembler = Bolverk::ASM::Compiler.new(File.open("./sample.basm"))
   source = assembler.compile
