@@ -8,24 +8,27 @@ class Bolverk::ASM::Parser
   attr_reader :parse_tree
 
   # Parse table used to predict the next production, given an input token and expected
-  # symbol.
+  # symbol. When encountered, a nil value will signal a Syntax Error.
   @@parse_table = {
-    :program =>          { :keyword => 1,   :number => nil, :comma => nil, :eof => 1 },
-    :statement_list =>   { :keyword => 2,   :number => nil, :comma => nil, :eof => 3 },
-    :statement =>        { :keyword => 4,   :number => nil, :comma => nil, :eof => nil },
-    :number_list =>      { :keyword => 8,   :number => 5,   :comma => nil, :eof => 8 },
-    :number_list_tail => { :keyword => 7,   :number => nil, :comma => 6,   :eof => 7 }
+    :program =>          { :keyword => 1, :char => nil,  :number => nil, :comma => nil, :eof => 1 },
+    :statement_list =>   { :keyword => 2, :char => nil,  :number => nil, :comma => nil, :eof => 3 },
+    :statement =>        { :keyword => 4, :char => nil,  :number => nil, :comma => nil, :eof => nil },
+    :argument_list => { :keyword => 6, :char => 5, :number => 5, :comma => nil, :eof => 6 },
+    :argument_list_tail => { :keyword => 8, :char => nil, :number => nil, :comma => 7, :eof => 8 },
+    :argument => { :keyword => nil, :char => 9, :number => 10, :comma => nil, :eof => nil }
   }
 
   @@production_table = [
     [:statement_list, :eof],              # program
     [:statement, :statement_list],        # statement_list
     [],                                   # statement_list (epsilon)
-    [:keyword, :number_list],             # statement
-    [:number, :number_list_tail],         # number_list
-    [:comma, :number, :number_list_tail], # number_list_tail
-    [],                                   # number_list_tail (epsilon)
-    []                                    # number_list (epsilon)
+    [:keyword, :argument_list],           # statement
+    [:argument, :argument_list_tail],     # argument_list
+    [],                                   # argument_list (epsilon)
+    [:comma, :argument], # argument_list_tail
+    [],                                       # argument_list_tail (epsilon)
+    [:char, :argument_list_tail],                                  # argument
+    [:number, :argument_list_tail]                                 # argument
   ]
 
   def initialize(tokens)
@@ -108,7 +111,7 @@ class Bolverk::ASM::Parser
   end
 
   def is_terminal?(symbol)
-    [ :comma, :number, :keyword, :eof ].include?(symbol)
+    [ :comma, :number, :char, :keyword, :eof ].include?(symbol)
   end
 
 end

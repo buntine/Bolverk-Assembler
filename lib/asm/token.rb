@@ -11,11 +11,9 @@ class Bolverk::ASM::Token
     @value = value
     @line = line
 
-    # In later phases of compilation, characters are treated
-    # as numbers. Here we keep the original character value,
-    # but update the type.
+    # In later phases of compilation, we don't require the single
+    # quotes. Here we keep the character only.
     if type == :char
-      @type = :number
       @value = value.gsub("\'", "")
     end
   end

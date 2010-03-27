@@ -96,10 +96,7 @@ class LexerTest < Test::Unit::TestCase
     token_e = @program_b.tokens[16]
 
     assert(token_a.type == :keyword, "Expected :keyword at token 1")
-
-    # Note: Characters are translated to numbers during the scan phase.
-    assert(token_b.type == :number, "Expected :number at token 4")
-
+    assert(token_b.type == :char, "Expected :char at token 4")
     assert(token_c.type == :number, "Expected :number at token 10")
     assert(token_d.type == :comma, "Expected :comma at token 11")
     assert(token_e.type == :keyword, "Expected :keyword at token 17")
@@ -171,7 +168,7 @@ class LexerTest < Test::Unit::TestCase
     assert(token_a.type == :keyword, "Expected :keyword at token 1")
     assert(token_b.type == :number, "Expected :number at token 10")
     assert(token_c.type == :comma, "Expected :comma at token 11")
-    assert(token_d.type == :number, "Expected :number at token 8")
+    assert(token_d.type == :char, "Expected :char at token 8")
 
     assert(token_a.value == "VALL", "Expected value 'VALL' at token 1")
     assert(token_b.value == "2", "Expected value '2' at token 10")
