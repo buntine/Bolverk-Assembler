@@ -38,7 +38,7 @@ PREDICT SET
 2. statement_list     --> statement statement_list { keyword }
 3. statement_list     --> EPS { $ }
 4. statement          --> "keyword" number_list { keyword }
-5. argument_list      --> argument argument_list_tail { number, char }
+5. argument_list      --> argument { number, char }
 6. argument_list      --> EPS { keyword, $ }
 7. argument_list_tail --> "comma" argument { comma }
 8. argument_list_tail --> EPS { keyword, $ }

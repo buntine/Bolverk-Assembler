@@ -23,7 +23,7 @@ class Bolverk::ASM::Parser
     [:statement, :statement_list],    # statement_list
     [],                               # statement_list (epsilon)
     [:keyword, :argument_list],       # statement
-    [:argument, :argument_list_tail], # argument_list
+    [:argument],                      # argument_list
     [],                               # argument_list (epsilon)
     [:comma, :argument],              # argument_list_tail
     [],                               # argument_list_tail (epsilon)
