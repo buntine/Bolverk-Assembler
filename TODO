@@ -1,11 +1,3 @@
-- Change scanner, parser, etc so we have a way of knowing an ASCII char from a number.
-  - At the moment, we have no way to tell if a single digit is a char or an integer.
-  - A possible way is to leave the single quotes around the tokens value.
-  - The best way is to actually add :character as a valid token type, but this may
-    add complexity to the grammar...
-  - See method "validate_and_format_args" in ./lib/asm/procedures.rb
-    - It needs to use a regex to check for non-numeric values.
-
 - Design/implement more primitive procedures:
      DMUL 1, 2, 3  -- Multiply the contents of r1 and r2, store the result in r3.
 
